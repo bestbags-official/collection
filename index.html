@@ -3,122 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KOSTI MARKET 3D | UPLOAD ENGINE</title>
+    <title>KOSTI MARKET ULTIMATE | 2026 PRO</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --accent: #2563eb; --perspective: 1200px; }
-        body { 
-            font-family: 'Cairo', sans-serif; 
-            background: #0f172a; 
-            color: #f8fafc; 
-            overflow-x: hidden;
-            perspective: var(--perspective);
+        :root { --accent: #3b82f6; --wallet-bg: rgba(30, 41, 59, 0.9); }
+        body { font-family: 'Cairo', sans-serif; background: #020617; color: white; overflow-x: hidden; }
+        
+        /* تأثير النيون الخلفي */
+        .neon-glow {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(59, 130, 246, 0.15) 0%, transparent 50%);
+            z-index: -1; pointer-events: none;
         }
 
-        /* انتقال الأقسام ثلاثي الأبعاد */
-        .section-view { 
-            display: none; 
-            transform-style: preserve-3d;
-        }
-        .section-view.active { 
-            display: block; 
-            animation: rotateIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        
+        /* كرت المحفظة */
+        .wallet-card { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 1px solid #3b82f6; }
 
-        @keyframes rotateIn {
-            0% { opacity: 0; transform: rotateY(-15deg) translateZ(-150px); }
-            100% { opacity: 1; transform: rotateY(0deg) translateZ(0px); }
-        }
-
-        /* كرت الرفع الزجاجي */
-        .upload-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            border: 2px dashed rgba(255, 255, 255, 0.1);
-            transition: 0.4s;
-        }
-        .upload-card:hover { border-color: var(--accent); background: rgba(37, 99, 235, 0.05); }
+        /* الأقسام */
+        .section { display: none; transform: translateY(30px); opacity: 0; transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1); }
+        .section.active { display: block; transform: translateY(0); opacity: 1; }
 
         /* كروت المنتجات */
-        .product-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transform-style: preserve-3d;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .product-card:hover { transform: translateZ(20px) translateY(-10px); border-color: var(--accent); }
+        .p-card { border-radius: 2.5rem; transition: 0.4s; overflow: hidden; position: relative; }
+        .p-card:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 20px 40px rgba(59, 130, 246, 0.2); }
+        .verify-badge { background: #3b82f6; color: white; font-size: 8px; padding: 2px 8px; border-radius: 10px; position: absolute; top: 15px; left: 15px; }
 
-        .nav-pill.active {
-            background: var(--accent);
-            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.5);
-        }
-
-        .glow { position: fixed; width: 400px; height: 400px; background: radial-gradient(circle, rgba(37,99,235,0.2) 0%, transparent 70%); filter: blur(80px); z-index: -1; pointer-events: none; }
+        .btn-gradient { background: linear-gradient(90deg, #2563eb, #7c3aed); transition: 0.4s; }
+        .btn-gradient:hover { filter: brightness(1.2); transform: scale(1.05); }
     </style>
 </head>
-<body class="pb-32">
+<body class="pb-32" onmousemove="moveGlow(event)">
 
-    <div class="glow" style="top: -100px; left: -100px;"></div>
-    <div class="glow" style="bottom: -100px; right: -100px;"></div>
+    <div class="neon-glow" id="glow"></div>
 
     <header class="sticky top-0 z-[1000] p-4">
-        <nav class="max-w-6xl mx-auto flex justify-between items-center bg-white/5 backdrop-blur-xl p-4 rounded-[2.5rem] border border-white/10 shadow-2xl">
-            <h1 class="text-2xl font-black text-blue-400 px-4 cursor-pointer" onclick="changeTab('all')">KOSTI<span class="text-white">.M</span></h1>
-            <div class="flex gap-2">
-                <button id="btn-all" onclick="changeTab('all')" class="nav-pill active px-6 py-2 rounded-full text-xs font-bold transition">الرئيسية</button>
-                <button id="btn-vendor" onclick="changeTab('vendor')" class="bg-white text-black px-6 py-2 rounded-full text-xs font-black hover:bg-blue-600 hover:text-white transition">لوحة التاجر 🚀</button>
+        <nav class="max-w-6xl mx-auto glass rounded-[2.5rem] p-4 flex justify-between items-center shadow-2xl">
+            <h1 class="text-2xl font-black italic tracking-tighter" onclick="showTab('home')">KOSTI<span class="text-blue-500">PRO</span></h1>
+            <div class="flex gap-3">
+                <button onclick="showTab('wallet')" class="w-12 h-12 glass rounded-2xl flex items-center justify-center">💰</button>
+                <button onclick="showTab('vendor')" class="btn-gradient px-6 py-2 rounded-2xl font-black text-xs">بيع الآن</button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-4 mt-8">
 
-        <div id="section-all" class="section-view active">
-            <div class="mb-12 bg-gradient-to-br from-blue-600 to-purple-700 p-10 rounded-[3rem] shadow-2xl relative overflow-hidden">
-                <h2 class="text-4xl font-black mb-2 animate__animated animate__fadeInDown">سوق كوستي 2026</h2>
-                <p class="opacity-80 font-bold">أهلاً بك في النسخة ثلاثية الأبعاد الأكثر تطوراً</p>
-                <div class="absolute -right-10 -bottom-10 text-[10rem] opacity-10 font-black">SALE</div>
-            </div>
-
-            <div id="products-grid" class="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div id="tab-home" class="section active">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6" id="products-container">
                 </div>
         </div>
 
-        <div id="section-vendor" class="section-view">
-            <div class="max-w-2xl mx-auto">
-                <div class="bg-white/5 backdrop-blur-2xl p-10 rounded-[3.5rem] border border-white/10 shadow-inner animate__animated animate__fadeIn">
-                    <h3 class="text-3xl font-black mb-8 border-r-4 border-blue-500 pr-4">نشر منتج جديد</h3>
-                    
-                    <div class="space-y-6">
-                        <div>
-                            <label class="text-xs font-black opacity-50 mr-4 mb-2 block uppercase tracking-widest">معلومات المعروض</label>
-                            <input type="text" id="p-name" placeholder="اسم المنتج (مثلاً: لابتوب ديل)" class="w-full p-5 bg-white/10 rounded-2xl border-none outline-none ring-1 ring-white/20 focus:ring-2 focus:ring-blue-500 transition">
-                        </div>
+        <div id="tab-vendor" class="section">
+            <div class="max-w-2xl mx-auto glass p-10 rounded-[3.5rem] shadow-2xl">
+                <h3 class="text-3xl font-black mb-8 text-blue-400">نشر جديد 🚀</h3>
+                <div class="space-y-5">
+                    <input type="text" id="p-name" placeholder="ماذا تود أن تبيع؟" class="w-full p-5 glass rounded-2xl outline-none focus:ring-1 focus:ring-blue-500">
+                    <input type="number" id="p-price" placeholder="حدد السعر بالجنيه" class="w-full p-5 glass rounded-2xl outline-none focus:ring-1 focus:ring-blue-500">
+                    <label class="w-full h-40 border-2 border-dashed border-white/20 rounded-3xl flex flex-col items-center justify-center cursor-pointer hover:bg-white/5 transition">
+                        <span class="text-4xl mb-2">📷</span>
+                        <span class="text-xs font-bold opacity-50">اختر صورة من الاستوديو</span>
+                        <input type="file" id="p-file" class="hidden" onchange="preview(event)">
+                    </label>
+                    <div id="pre-box" class="hidden h-32 rounded-2xl overflow-hidden mb-4 border border-blue-500">
+                        <img id="img-pre" class="w-full h-full object-cover">
+                    </div>
+                    <button onclick="publish()" class="w-full btn-gradient py-5 rounded-3xl font-black text-xl shadow-xl shadow-blue-500/20">نشر المعروض</button>
+                </div>
+            </div>
+        </div>
 
-                        <div class="relative">
-                            <input type="number" id="p-price" placeholder="السعر بالجنيه السوداني" class="w-full p-5 bg-white/10 rounded-2xl border-none outline-none ring-1 ring-white/20 focus:ring-2 focus:ring-blue-500 transition">
-                            <span class="absolute left-5 top-5 opacity-40 font-bold">SDG</span>
+        <div id="tab-wallet" class="section">
+            <div class="max-w-lg mx-auto">
+                <div class="wallet-card p-10 rounded-[3.5rem] text-center shadow-2xl animate__animated animate__backInDown">
+                    <p class="text-xs font-black opacity-50 uppercase tracking-[0.2em] mb-2">رصيد الأرباح المتاح</p>
+                    <h2 id="wallet-balance" class="text-5xl font-[900] text-blue-400 mb-6">0 <small class="text-sm">ج.س</small></h2>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="glass p-4 rounded-3xl">
+                            <p class="text-[10px] opacity-50">إجمالي المبيعات</p>
+                            <p id="total-sales" class="font-black">0</p>
                         </div>
-
-                        <div class="relative group">
-                            <label class="upload-card w-full h-56 rounded-[2.5rem] flex flex-col items-center justify-center cursor-pointer overflow-hidden">
-                                <div id="upload-placeholder" class="text-center animate__animated animate__pulse animate__infinite">
-                                    <span class="text-5xl">📸</span>
-                                    <p class="mt-4 font-black text-blue-400">اضغط لرفع صورة من هاتفك</p>
-                                    <p class="text-[10px] opacity-40">JPG, PNG أو HEIC مدعومة</p>
-                                </div>
-                                <img id="image-preview" class="hidden w-full h-full object-cover">
-                                <input type="file" id="p-file" accept="image/*" class="hidden" onchange="previewImage(event)">
-                            </label>
-                            <button id="remove-img" onclick="resetUpload()" class="hidden absolute top-4 left-4 bg-red-500 w-8 h-8 rounded-full shadow-lg">✕</button>
+                        <div class="glass p-4 rounded-3xl border-red-900/30">
+                            <p class="text-[10px] opacity-50">العمولات المستقطعة</p>
+                            <p id="total-comm" class="font-black text-red-400">0</p>
                         </div>
-
-                        <button onclick="handlePublish()" class="w-full bg-blue-600 hover:bg-blue-700 py-6 rounded-[2rem] font-black text-xl shadow-2xl shadow-blue-500/20 transition-all transform active:scale-95">
-                            نشر المعروض الآن ✨
-                        </button>
                     </div>
                 </div>
             </div>
@@ -126,99 +97,93 @@
 
     </main>
 
+    <div class="fixed bottom-6 inset-x-0 mx-auto w-[90%] max-w-sm glass rounded-[3rem] p-3 flex justify-around items-center z-[2000] border-white/10 shadow-2xl">
+        <button onclick="showTab('home')" class="p-4 opacity-50 hover:opacity-100 transition">🏠</button>
+        <button onclick="showTab('vendor')" class="w-14 h-14 bg-blue-600 rounded-full flex items-center justify-center text-2xl shadow-xl shadow-blue-500/50 border-4 border-slate-900">+</button>
+        <button onclick="showTab('wallet')" class="p-4 opacity-50 hover:opacity-100 transition">💰</button>
+    </div>
+
     <script>
-        let products = [];
+        let db = [];
+        let wallet = { balance: 0, sales: 0, comm: 0 };
 
-        // تبديل المشاهد ثلاثي الأبعاد
-        function changeTab(tabId) {
-            document.querySelectorAll('.section-view').forEach(s => s.classList.remove('active'));
-            document.getElementById(`section-${tabId}`).classList.add('active');
-            
-            // تحديث الأزرار
-            document.getElementById('btn-all').classList.toggle('active', tabId === 'all');
-            document.getElementById('btn-vendor').classList.toggle('bg-blue-600', tabId === 'vendor');
-            document.getElementById('btn-vendor').classList.toggle('text-white', tabId === 'vendor');
-
-            if(tabId === 'all') renderProducts();
+        function moveGlow(e) {
+            const glow = document.getElementById('glow');
+            glow.style.setProperty('--x', e.clientX + 'px');
+            glow.style.setProperty('--y', e.clientY + 'px');
         }
 
-        // معاينة الصورة المرفوعة فورياً
-        function previewImage(event) {
-            const file = event.target.files[0];
-            if (file) {
+        function showTab(id) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById('tab-' + id).classList.add('active');
+            if(id === 'home') render();
+            updateWalletUI();
+        }
+
+        function preview(e) {
+            const file = e.target.files[0];
+            if(file) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
-                    const preview = document.getElementById('image-preview');
-                    const placeholder = document.getElementById('upload-placeholder');
-                    const removeBtn = document.getElementById('remove-img');
-                    
-                    preview.src = e.target.result;
-                    preview.classList.remove('hidden');
-                    placeholder.classList.add('hidden');
-                    removeBtn.classList.remove('hidden');
+                reader.onload = function(r) {
+                    document.getElementById('img-pre').src = r.target.result;
+                    document.getElementById('pre-box').classList.remove('hidden');
                 };
                 reader.readAsDataURL(file);
             }
         }
 
-        function resetUpload() {
-            document.getElementById('p-file').value = '';
-            document.getElementById('image-preview').classList.add('hidden');
-            document.getElementById('upload-placeholder').classList.remove('hidden');
-            document.getElementById('remove-img').classList.add('hidden');
-        }
-
-        // معالجة النشر
-        function handlePublish() {
+        function publish() {
             const name = document.getElementById('p-name').value;
             const price = document.getElementById('p-price').value;
-            const imgFile = document.getElementById('image-preview').src;
+            const img = document.getElementById('img-pre').src;
 
-            if (name && price && imgFile) {
-                const newProduct = {
-                    id: Date.now(),
-                    name: name,
-                    price: parseInt(price).toLocaleString(),
-                    img: imgFile
-                };
+            if(name && price && img) {
+                db.unshift({ id: Date.now(), name, price: parseInt(price), img });
                 
-                products.unshift(newProduct);
-                alert("تم رفع منتجك بنجاح وبشكل جذاب!");
+                // تحديث المحفظة (محاكاة بيع سريع لغرض العرض)
+                wallet.sales++;
+                const commission = price * 0.10;
+                wallet.comm += commission;
+                wallet.balance += (price - commission);
+
+                alert("تم النشر بنجاح! تم إضافة الأرباح المتوقعة لمحفظتك.");
+                showTab('home');
                 
-                // تصفير الحقول والعودة
+                // تصفير
                 document.getElementById('p-name').value = '';
                 document.getElementById('p-price').value = '';
-                resetUpload();
-                changeTab('all');
-            } else {
-                alert("يرجى إكمال البيانات واختيار صورة المنتج!");
-            }
+                document.getElementById('pre-box').classList.add('hidden');
+            } else { alert("أكمل البيانات أولاً!"); }
         }
 
-        // رندر المنتجات مع أنيميشن
-        function renderProducts() {
-            const grid = document.getElementById('products-grid');
-            grid.innerHTML = products.length ? '' : `
-                <div class="col-span-full text-center py-20 opacity-20 italic font-black">
-                    لا يوجد معروضات بعد.. كن التاجر الأول!
-                </div>
-            `;
-
-            products.forEach(p => {
-                grid.innerHTML += `
-                    <div class="product-card rounded-[2.5rem] p-5 flex flex-col animate__animated animate__fadeInUp">
-                        <div class="h-44 rounded-[2rem] overflow-hidden mb-4 shadow-lg">
+        function render() {
+            const container = document.getElementById('products-container');
+            container.innerHTML = db.length ? '' : '<div class="col-span-full text-center py-20 opacity-20 italic">المتجر فارغ حالياً...</div>';
+            
+            db.forEach(p => {
+                container.innerHTML += `
+                    <div class="p-card glass p-4 animate__animated animate__fadeInUp">
+                        <span class="verify-badge">✓ تاجر موثوق</span>
+                        <div class="h-40 rounded-[2rem] overflow-hidden mb-4">
                             <img src="${p.img}" class="w-full h-full object-cover">
                         </div>
-                        <h4 class="font-bold text-sm px-2 truncate">${p.name}</h4>
+                        <h4 class="font-bold text-sm truncate px-2">${p.name}</h4>
                         <div class="flex justify-between items-center mt-4 px-2">
-                            <span class="text-lg font-black text-blue-400">${p.price} <small class="text-[10px]">ج.س</small></span>
-                            <button class="bg-white/10 w-10 h-10 rounded-full flex items-center justify-center hover:bg-blue-600 transition">🛒</button>
+                            <span class="text-blue-400 font-black">${p.price.toLocaleString()} ج.س</span>
+                            <button class="bg-white/10 w-8 h-8 rounded-full flex items-center justify-center">🛒</button>
                         </div>
                     </div>
                 `;
             });
         }
+
+        function updateWalletUI() {
+            document.getElementById('wallet-balance').innerText = Math.round(wallet.balance).toLocaleString() + " ج.س";
+            document.getElementById('total-sales').innerText = wallet.sales;
+            document.getElementById('total-comm').innerText = Math.round(wallet.comm).toLocaleString() + " ج.س";
+        }
+
+        render();
     </script>
 </body>
 </html>
