@@ -3,191 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>متجر الجلود الفاخرة | كوستي - النصر</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&family=Amiri:ital@1&display=swap" rel="stylesheet">
+    <title>Al-Nasr Luxury Leather | فخامة كوستي</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Cairo:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --gold: #c5a059;
-            --black: #1a1a1a;
-            --white: #ffffff;
-            --bg: #faf8f5;
-        }
-
-        body {
-            font-family: 'Cairo', sans-serif;
-            background-color: var(--bg);
-            color: var(--black);
-            margin: 0;
-            padding: 0;
-        }
-
-        header {
-            background-color: var(--white);
-            padding: 40px 20px;
-            text-align: center;
-            border-bottom: 1px solid #eee;
-        }
-
-        .logo-area h1 {
-            font-family: 'Amiri', serif;
-            font-size: 2.5rem;
-            margin: 0;
-            letter-spacing: 2px;
-            color: var(--black);
-        }
-
-        .welcome-section {
-            padding: 60px 20px;
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .welcome-section h2 {
-            font-size: 1.8rem;
-            color: var(--gold);
-            margin-bottom: 20px;
-        }
-
-        .welcome-section p {
-            line-height: 1.8;
-            font-size: 1.1rem;
-            color: #555;
-        }
-
-        /* معرض المنتجات */
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            padding: 40px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .product-card {
-            background: var(--white);
-            border: 1px solid #f0f0f0;
-            transition: transform 0.3s ease;
-            position: relative;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .product-card img {
-            width: 100%;
-            height: auto;
-            display: block;
-            /* السماح بحفظ الصور */
-            pointer-events: auto; 
-        }
-
-        .product-info {
-            padding: 20px;
-            text-align: center;
-        }
-
-        .product-info h3 {
-            margin: 10px 0;
-            font-size: 1.2rem;
-        }
-
-        .price {
-            color: var(--gold);
-            font-weight: bold;
-            font-size: 1.3rem;
-            display: block;
-            margin-bottom: 15px;
-        }
-
-        /* زر الواتساب */
-        .whatsapp-btn {
-            position: fixed;
-            bottom: 30px;
-            left: 30px;
-            background-color: #25d366;
-            color: white;
-            padding: 15px 25px;
-            border-radius: 50px;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            z-index: 1000;
-            font-weight: bold;
-        }
-
-        .location-tag {
-            font-size: 0.9rem;
-            color: #888;
-            margin-top: 50px;
-            text-align: center;
-            padding-bottom: 100px;
-        }
-
-        footer {
-            background: var(--black);
-            color: white;
-            text-align: center;
-            padding: 20px;
-            font-size: 0.8rem;
-        }
+        body { font-family: 'Cairo', sans-serif; background-color: #fafafa; }
+        .luxury-font { font-family: 'Amiri', serif; }
+        .gold-text { color: #c5a059; }
+        .gold-bg { background-color: #c5a059; }
+        .admin-panel { display: none; }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); }
     </style>
 </head>
-<body>
+<body class="text-gray-900">
 
-    <header>
-        <div class="logo-area">
-            <h1>AL-NASR LEATHER</h1>
-            <p style="color: var(--gold); text-transform: uppercase; letter-spacing: 3px;">Handcrafted Luxury</p>
-        </div>
+    <header class="bg-white border-b py-8 px-4 text-center">
+        <h1 class="luxury-font text-4xl mb-2">AL-NASR LEATHER</h1>
+        <p class="text-xs tracking-widest text-gray-500 uppercase">صناعة يدوية فاخرة - كوستي</p>
+        <button onclick="toggleAdmin()" class="text-[10px] text-gray-300 mt-4">تسجيل دخول الإدارة</button>
     </header>
 
-    <section class="welcome-section">
-        <h2>فخامة تُصنع باليد.. من قلب كوستي إليكِ</h2>
-        <p>
-            في ورشتنا بالنصر مربع 8، نحول الجلد الطبيعي إلى قطع فنية تروي قصة الأصالة والدقة. 
-            كل شنطة هي بصمة فريدة صُممت خصيصاً لمن يقدرون التميز والتفاصيل المتقنة.
-        </p>
+    <section id="adminPanel" class="admin-panel bg-gray-100 p-6 border-b">
+        <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-sm">
+            <h2 class="text-xl font-bold mb-4">إضافة منتج جديد (النصر مربع 8)</h2>
+            <input type="text" id="pName" placeholder="اسم الشنطة" class="w-full border p-2 mb-3 rounded">
+            <input type="number" id="pPrice" placeholder="السعر (SDG)" class="w-full border p-2 mb-3 rounded">
+            <select id="pCategory" class="w-full border p-2 mb-3 rounded">
+                <option value="شنط يد">شنط يد</option>
+                <option value="محافظ">محافظ</option>
+                <option value="أطقم">أطقم فاخرة</option>
+            </select>
+            <textarea id="pDesc" placeholder="وصف المنتج" class="w-full border p-2 mb-3 rounded"></textarea>
+            <label class="block mb-2 text-sm text-gray-600">اختر صور المنتج (يمكن اختيار أكثر من صورة من الموبايل):</label>
+            <input type="file" id="pFiles" multiple accept="image/*" class="w-full mb-4">
+            <button onclick="uploadProduct()" id="uploadBtn" class="gold-bg text-white px-6 py-2 rounded w-full">نشر المنتج الآن</button>
+        </div>
     </section>
 
-    <div class="products-grid">
-        
-        <div class="product-card">
-            <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="شنطة جلدية فاخرة">
-            <div class="product-info">
-                <h3>شنطة كلاسيك - جلد طبيعي</h3>
-                <span class="price">45,000 SDG</span>
-                <p style="font-size: 0.9rem; color: #777;">صناعة يدوية بالكامل - متوفرة بعدة ألوان</p>
-            </div>
+    <div id="loginModal" class="modal flex items-center justify-center">
+        <div class="bg-white p-8 rounded-lg w-80">
+            <h3 class="font-bold mb-4">دخول الإدارة</h3>
+            <input type="email" id="email" placeholder="البريد الإلكتروني" class="w-full border p-2 mb-3 rounded">
+            <input type="password" id="password" placeholder="كلمة المرور" class="w-full border p-2 mb-4 rounded">
+            <button onclick="handleLogin()" class="bg-black text-white w-full py-2 rounded">دخول</button>
+            <button onclick="toggleAdmin()" class="text-gray-400 text-sm mt-4 block w-full text-center">إلغاء</button>
         </div>
-
-        <div class="product-card">
-            <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="حقيبة يد يدوية">
-            <div class="product-info">
-                <h3>حقيبة النصر الملكية</h3>
-                <span class="price">55,000 SDG</span>
-                <p style="font-size: 0.9rem; color: #777;">إصدار محدود - خياطة يدوية متينة</p>
-            </div>
-        </div>
-
     </div>
 
-    <div class="location-tag">
-        📍 كوستي - حي النصر - مربع 8
-    </div>
+    <section class="py-16 px-4 text-center">
+        <h2 class="luxury-font text-3xl mb-4">فخامة تُصنع باليد.. من قلب كوستي إليكِ</h2>
+        <p class="max-w-xl mx-auto text-gray-600 leading-relaxed">في ورشتنا بالنصر مربع 8، نحول الجلد الطبيعي إلى قطع فنية تروي قصة الأصالة والدقة.</p>
+    </section>
 
-    <a href="https://wa.me/249900623733" class="whatsapp-btn" target="_blank">
-        <span>اطلب عبر واتساب</span>
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.588-5.946 0-6.556 5.332-11.891 11.893-11.891 3.181 0 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.481 8.403 0 6.556-5.332 11.892-11.893 11.892-1.99 0-3.951-.499-5.692-1.447l-6.394 1.765zm5.35-4.808c1.558.927 3.42 1.417 5.318 1.418 5.617 0 10.186-4.57 10.187-10.188 0-2.721-1.06-5.28-2.984-7.205-1.925-1.924-4.484-2.983-7.204-2.983-5.618 0-10.188 4.571-10.188 10.189 0 2.112.653 4.175 1.888 5.912l-.992 3.625 3.71-.973zm10.428-7.143c-.273-.137-1.613-.795-1.863-.886-.25-.091-.432-.136-.613.137-.182.273-.705.886-.864 1.068-.159.182-.318.204-.591.068-.272-.137-1.15-.424-2.19-1.352-.81-.722-1.357-1.614-1.516-1.887-.159-.273-.017-.42.12-.556.123-.122.272-.318.409-.477.136-.159.182-.273.272-.455.091-.181.046-.34-.023-.477-.068-.136-.613-1.477-.841-2.023-.222-.53-.447-.458-.613-.466-.159-.008-.34-.009-.522-.009-.182 0-.477.068-.727.34-.25.273-.954.932-.954 2.273 0 1.341.977 2.636 1.114 2.818.136.182 1.922 2.935 4.656 4.114.65.28 1.157.447 1.553.573.654.207 1.25.177 1.719.108.524-.077 1.613-.659 1.841-1.295.227-.636.227-1.181.159-1.295-.068-.113-.25-.181-.523-.318z"/></svg>
+    <main id="productsGrid" class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 px-6 pb-20">
+        </main>
+
+    <a href="https://wa.me/249900623733" target="_blank" class="fixed bottom-6 left-6 bg-[#25d366] text-white p-4 rounded-full shadow-lg flex items-center gap-2 hover:scale-105 transition">
+        <span class="font-bold">اطلب الآن</span>
+        <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.587-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.747-2.874-2.512-2.96-2.626-.088-.113-.716-.953-.716-1.819 0-.866.454-1.292.614-1.468.16-.176.346-.22.462-.22s.231.001.332.005c.106.005.249-.04.39.299.144.344.491 1.196.534 1.282.043.088.072.19.014.306-.057.117-.087.19-.173.289-.086.1-.181.223-.259.302-.086.088-.176.185-.077.355.1.17.444.733.951 1.185.655.584 1.207.765 1.378.85s.273.064.373-.049c.1-.113.432-.503.547-.674.117-.171.232-.144.39-.086.158.058 1.001.472 1.173.558.173.086.289.129.332.201.042.072.042.417-.102.822z"/></svg>
     </a>
 
-    <footer>
-        <p>جميع الحقوق محفوظة &copy; 2024 - AL-NASR Luxury Leather</p>
-    </footer>
+    <script>
+        // ربط Supabase
+        const SUPABASE_URL = 'https://bxbglomvulnzehruubdh.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ4Ymdsb212dWxuemVocnV1YmRoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Mzg5MDYsImV4cCI6MjA5MjUxNDkwNn0.rqIZHvP47QugH9vG0LW8OkkmAVYEzhOwv-VUKJuEqOY';
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+        // تبديل ظهور لوحة الإدارة
+        function toggleAdmin() {
+            const modal = document.getElementById('loginModal');
+            modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
+        }
+
+        // تسجيل الدخول
+        async function handleLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
+            if (error) alert("بيانات الدخول غير صحيحة");
+            else {
+                alert("تم الدخول بنجاح");
+                document.getElementById('loginModal').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                loadProducts();
+            }
+        }
+
+        // رفع المنتج (صور متعددة)
+        async function uploadProduct() {
+            const name = document.getElementById('pName').value;
+            const price = document.getElementById('pPrice').value;
+            const desc = document.getElementById('pDesc').value;
+            const cat = document.getElementById('pCategory').value;
+            const files = document.getElementById('pFiles').files;
+            const btn = document.getElementById('uploadBtn');
+
+            if(!name || files.length === 0) return alert("يرجى إكمال البيانات");
+            btn.innerText = "جاري الرفع...";
+
+            const imageUrls = [];
+            for (let file of files) {
+                const fName = `${Date.now()}_${file.name}`;
+                const { data, error } = await _supabase.storage.from('product-images').upload(fName, file);
+                if (data) {
+                    const { data: urlData } = _supabase.storage.from('product-images').getPublicUrl(fName);
+                    imageUrls.push(urlData.publicUrl);
+                }
+            }
+
+            const { error: dbError } = await _supabase.from('products').insert([{ 
+                name, price, description: desc, category: cat, images: imageUrls 
+            }]);
+
+            if (dbError) alert("حدث خطأ أثناء الحفظ");
+            else {
+                alert("تم نشر المنتج بنجاح!");
+                location.reload();
+            }
+        }
+
+        // جلب المنتجات وعرضها
+        async function loadProducts() {
+            const { data, error } = await _supabase.from('products').select('*').order('created_at', { ascending: false });
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = '';
+
+            data.forEach(p => {
+                const card = `
+                    <div class="bg-white border rounded shadow-sm overflow-hidden group">
+                        <div class="relative">
+                            <img src="${p.images[0]}" class="w-full h-80 object-cover">
+                            <a href="${p.images[0]}" download="AlNasr_${p.name}" class="absolute top-2 right-2 bg-white/80 p-2 rounded-full opacity-0 group-hover:opacity-100 transition">
+                                ⬇️ حفظ
+                            </a>
+                        </div>
+                        <div class="p-4 text-center">
+                            <h3 class="font-bold text-lg">${p.name}</h3>
+                            <p class="gold-text font-bold mb-2">${p.price} SDG</p>
+                            <div class="flex gap-1 justify-center mb-4">
+                                ${p.images.slice(1,4).map(img => `<img src="${img}" class="w-10 h-10 object-cover rounded border">`).join('')}
+                            </div>
+                            <button onclick="alert('وصف المنتج: ${p.desc || 'جلد طبيعي 100%'}\\n\\nمنتجات مشابهة قد تعجبك: شنط من نفس الفئة')" class="text-xs text-gray-400 underline">تفاصيل واقتراحات</button>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += card;
+            });
+        }
+
+        loadProducts();
+    </script>
 </body>
 </html>
