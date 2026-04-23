@@ -3,80 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AL-NASR | الأناقة اليدوية</title>
+    <title>AL-NASR | فخامة الجلود الطبيعية</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;600&family=Noto+Kufi+Arabic:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;600;900&family=Amiri:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
     
     <style>
-        :root { --accent: #D4AF37; }
-        body { font-family: 'Noto Kufi Arabic', sans-serif; background-color: #fcfcfc; scroll-behavior: smooth; }
-        .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
-        .hero-bg { background: radial-gradient(circle at 50% 50%, #ffffff 0%, #f3f3f3 100%); }
-        .product-card { transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
-        .product-card:hover { transform: translateY(-12px); }
-        .admin-panel { display: none; }
-        .save-btn { background: rgba(255,255,255,0.85); backdrop-filter: blur(8px); }
-        .fade-in { animation: fadeIn 1.5s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        :root {
+            --bg-deep: #1a1a1a; /* أسود فحمي */
+            --accent-gold: #c5a059; /* ذهبي مطفي */
+            --text-muted: #a0a0a0;
+        }
+        body { font-family: 'Cairo', sans-serif; background-color: var(--bg-deep); color: #eeeeee; scroll-behavior: smooth; }
+        .luxury-text { font-family: 'Amiri', serif; }
+        .glass-dark { background: rgba(30, 30, 30, 0.7); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .product-card { background: #242424; transition: all 0.5s ease; border: 1px solid rgba(255,255,255,0.03); }
+        .product-card:hover { transform: translateY(-10px); border-color: var(--accent-gold); }
+        .admin-controls { display: none; }
+        .btn-gold { background: var(--accent-gold); color: #1a1a1a; transition: all 0.3s; }
+        .btn-gold:hover { background: #e0b96b; transform: scale(1.05); }
     </style>
 </head>
-<body class="text-gray-900">
+<body>
 
-    <nav class="glass fixed top-0 w-full z-50 px-8 py-5 flex justify-between items-center border-b border-white/20">
-        <div class="text-2xl font-bold tracking-tighter" style="font-family: 'Plus Jakarta Sans';">AL-NASR</div>
-        <div class="flex gap-6 text-xs font-bold uppercase tracking-widest">
-            <a href="#collection" class="hover:text-accent transition">المجموعة</a>
-            <a href="https://wa.me/249900623733" class="hover:text-accent transition">واتساب</a>
+    <nav class="glass-dark fixed top-0 w-full z-50 px-8 py-6 flex justify-between items-center">
+        <div class="luxury-text text-3xl font-bold tracking-tighter text-[#c5a059]">AL-NASR</div>
+        <div class="flex gap-6 text-[10px] font-bold uppercase tracking-[0.2em]">
+            <a href="#collection" class="hover:text-[#c5a059] transition">المجموعة</a>
+            <a href="https://wa.me/249900623733" class="text-[#c5a059]">تواصل مباشر</a>
         </div>
     </nav>
 
-    <section class="hero-bg min-h-screen flex flex-col justify-center items-center text-center px-6 pt-20">
-        <div class="fade-in">
-            <span class="text-accent text-[10px] font-bold tracking-[0.5em] mb-6 block uppercase">Handcrafted in Kosti</span>
-            <h1 class="text-6xl md:text-8xl font-bold mb-8 leading-[1.1] tracking-tighter">الفخامة في <br><span class="text-gray-400 font-light italic">أبسط تفاصيلها</span></h1>
-            <p class="max-w-xl text-gray-500 mb-12 text-lg font-light leading-relaxed">من ورشتنا في النصر مربع 8، نقدم لكِ قطعاً جلدية تُصنع مرة واحدة لتبقى معكِ للأبد.</p>
-            <a href="#collection" class="inline-block border-b-2 border-black pb-2 text-sm font-bold hover:text-accent hover:border-accent transition">استكشف المجموعة المختارة</a>
+    <section class="h-[90vh] flex flex-col justify-center items-center text-center px-6 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-20" style="background-image: url('https://www.transparenttextures.com/patterns/leather.png');"></div>
+        <div class="z-10">
+            <h1 class="luxury-text text-5xl md:text-8xl mb-6 leading-tight">سِحر الجِلد الطبيعي</h1>
+            <p class="max-w-2xl text-gray-400 text-lg font-light mb-12 leading-relaxed italic">قطع فريدة تُصنع يدوياً في كوستي، لترافقكِ في أجمل لحظات العمر.</p>
+            <a href="#collection" class="btn-gold px-12 py-4 rounded-full font-bold text-sm shadow-2xl">تصفح المعرض الآن</a>
         </div>
     </section>
 
     <section id="collection" class="py-32 max-w-7xl mx-auto px-8">
-        <div class="mb-20">
-            <h2 class="text-4xl font-bold mb-4">المجموعة الحالية</h2>
-            <div class="w-20 h-1 bg-accent"></div>
+        <div class="text-center mb-24">
+            <h2 class="luxury-text text-4xl mb-4">المجموعة المختارة</h2>
+            <p class="text-gray-500 text-sm tracking-widest uppercase">حصرياً في حي النصر - مربع 8</p>
         </div>
-        <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
+        
+        <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
             </div>
     </section>
 
-    <section id="adminPanel" class="admin-panel py-24 bg-black text-white">
-        <div class="max-w-2xl mx-auto px-6">
-            <h2 class="text-3xl font-bold mb-10 text-center">إضافة قطعة جديدة للمتجر</h2>
-            <div class="space-y-6">
-                <input type="text" id="pName" placeholder="اسم المنتج" class="w-full bg-white/10 border-none p-5 rounded-2xl focus:ring-1 focus:ring-accent text-white">
-                <input type="number" id="pPrice" placeholder="السعر (SDG)" class="w-full bg-white/10 border-none p-5 rounded-2xl focus:ring-1 focus:ring-accent text-white">
-                <textarea id="pDesc" placeholder="تفاصيل القطعة..." class="w-full bg-white/10 border-none p-5 rounded-2xl h-40 text-white"></textarea>
-                <div class="border-2 border-dashed border-white/20 p-8 rounded-2xl text-center">
-                    <input type="file" id="pFiles" multiple class="hidden">
-                    <label for="pFiles" class="cursor-pointer text-sm text-gray-400 hover:text-white transition">اضغط هنا لاختيار صور الشنطة من الموبايل</label>
-                </div>
-                <button onclick="uploadProduct()" id="uploadBtn" class="w-full py-5 bg-white text-black rounded-2xl font-bold hover:bg-accent hover:text-white transition">نشر في المتجر</button>
+    <section id="adminPanel" class="admin-controls py-24 bg-[#111] border-t border-[#c5a059]/20">
+        <div class="max-w-2xl mx-auto px-6 bg-[#1a1a1a] p-10 rounded-3xl border border-white/5">
+            <h2 class="text-2xl font-bold mb-8 text-[#c5a059]">إدارة المتجر - إضافة منتج</h2>
+            <div class="space-y-4">
+                <input type="text" id="pName" placeholder="اسم القطعة" class="w-full bg-[#222] border-none p-4 rounded-xl text-white outline-none">
+                <input type="number" id="pPrice" placeholder="السعر" class="w-full bg-[#222] border-none p-4 rounded-xl text-white outline-none">
+                <textarea id="pDesc" placeholder="وصف القطعة (اختياري)" class="w-full bg-[#222] border-none p-4 rounded-xl h-32 text-white outline-none"></textarea>
+                <input type="file" id="pFiles" multiple class="block w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-[#c5a059] file:text-black">
+                <button onclick="uploadProduct()" id="uploadBtn" class="w-full py-4 btn-gold rounded-xl font-bold">نشر الآن</button>
             </div>
         </div>
     </section>
 
-    <footer class="py-20 border-t border-gray-100 px-8 text-center">
-        <p class="text-xs text-gray-400 tracking-widest uppercase">© 2026 AL-NASR Luxury Leather - Kosti</p>
-        <button onclick="showLogin()" class="mt-12 text-[10px] text-gray-200 hover:text-gray-400 transition">بوابة الوصول</button>
+    <footer class="py-20 border-t border-white/5 text-center">
+        <p class="text-[10px] text-gray-600 tracking-widest uppercase mb-4">© 2026 AL-NASR LEATHER LUXURY</p>
+        <button onclick="showLogin()" class="text-gray-700 hover:text-[#c5a059] transition text-xs">إدارة [اسم صاحب الموقع]</button>
     </footer>
 
-    <div id="loginModal" class="fixed inset-0 bg-white/90 z-[100] hidden items-center justify-center p-6 backdrop-blur-xl">
-        <div class="w-full max-w-sm">
-            <h3 class="text-3xl font-bold mb-8 text-center tracking-tighter">التحقق من الهوية</h3>
-            <input type="email" id="email" placeholder="البريد الإلكتروني" class="w-full border-b border-black py-4 mb-6 outline-none bg-transparent">
-            <input type="password" id="password" placeholder="كلمة المرور" class="w-full border-b border-black py-4 mb-10 outline-none bg-transparent">
-            <button onclick="handleLogin()" class="w-full py-4 bg-black text-white rounded-full font-bold">دخول</button>
-            <button onclick="hideLogin()" class="w-full mt-6 text-xs text-gray-400 uppercase tracking-widest">إغلاق</button>
+    <div id="loginModal" class="fixed inset-0 bg-black/95 z-[100] hidden items-center justify-center p-6 backdrop-blur-md">
+        <div class="w-full max-w-sm text-center">
+            <h3 class="luxury-text text-3xl mb-8 text-[#c5a059]">دخول الإدارة</h3>
+            <input type="email" id="email" placeholder="البريد" class="w-full bg-transparent border-b border-gray-700 py-4 mb-6 outline-none text-center">
+            <input type="password" id="password" placeholder="كلمة المرور" class="w-full bg-transparent border-b border-gray-700 py-4 mb-10 outline-none text-center">
+            <button onclick="handleLogin()" class="btn-gold w-full py-4 rounded-full font-bold">دخول</button>
+            <button onclick="hideLogin()" class="mt-6 text-gray-500 text-xs">إلغاء</button>
         </div>
     </div>
 
@@ -85,11 +86,18 @@
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ4Ymdsb212dWxuemVocnV1YmRoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Mzg5MDYsImV4cCI6MjA5MjUxNDkwNn0.rqIZHvP47QugH9vG0LW8OkkmAVYEzhOwv-VUKJuEqOY';
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // منتجات ترويجية أولية (يمكن للمدير حذفها لاحقاً من قاعدة البيانات)
-        const promoData = [
-            { id: 1, name: "حقيبة النصر كلاسيك", price: "45,000", images: ["https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=800"] },
-            { id: 2, name: "محفظة الجلد الفاخرة", price: "12,500", images: ["https://images.unsplash.com/photo-1627123424574-724758594e93?q=80&w=800"] }
-        ];
+        let isAdmin = false;
+
+        // وظيفة حفظ الصورة مع الرسالة التوجيهية
+        function saveImage(url, name) {
+            alert("✨ ملاحظة: احفظ الصورة الآن في جهازك، وإذا أعجبك المنتج اضغط على زر 'اطلب هنا' لإرسال الصورة لصاحب الموقع عبر الواتساب.");
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `AlNasr_${name}.jpg`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
 
         function showLogin() { document.getElementById('loginModal').style.display = 'flex'; }
         function hideLogin() { document.getElementById('loginModal').style.display = 'none'; }
@@ -97,26 +105,33 @@
         async function handleLogin() {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const { error } = await _supabase.auth.signInWithPassword({ email, password });
-            if (error) alert("البيانات غير صحيحة");
+            const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
+            if (error) alert("خطأ في بيانات الدخول");
             else {
+                isAdmin = true;
                 hideLogin();
                 document.getElementById('adminPanel').style.display = 'block';
-                window.scrollTo({ top: document.getElementById('adminPanel').offsetTop, behavior: 'smooth' });
+                renderProducts(); // إعادة التحميل لإظهار أزرار الحذف
+            }
+        }
+
+        async function deleteProduct(id) {
+            if(confirm("هل أنت متأكد من حذف هذا المنتج نهائياً؟")) {
+                await _supabase.from('products').delete().eq('id', id);
+                location.reload();
             }
         }
 
         async function uploadProduct() {
             const btn = document.getElementById('uploadBtn');
             const files = document.getElementById('pFiles').files;
-            btn.innerText = "جاري الحفظ بنظام 2026...";
+            btn.innerText = "جاري الحفظ...";
             
             try {
                 let imageUrls = [];
                 for (let file of files) {
                     const fName = `${Date.now()}_${file.name}`;
-                    const { data, error } = await _supabase.storage.from('product-images').upload(fName, file);
-                    if (error) throw error;
+                    await _supabase.storage.from('product-images').upload(fName, file);
                     const { data: urlData } = _supabase.storage.from('product-images').getPublicUrl(fName);
                     imageUrls.push(urlData.publicUrl);
                 }
@@ -128,36 +143,35 @@
                     images: imageUrls
                 }]);
                 
-                alert("تم تحديث المجموعة بنجاح");
+                alert("تمت الإضافة!");
                 location.reload();
-            } catch (err) {
-                alert("تأكد من كتابة اسم للسياسة في Supabase Storage");
-                btn.innerText = "فشل الرفع - حاول مجدداً";
-            }
+            } catch (err) { alert("حدث خطأ في الرفع"); }
         }
 
         async function renderProducts() {
-            const { data } = await _supabase.from('products').select('*');
+            const { data } = await _supabase.from('products').select('*').order('created_at', {ascending: false});
             const grid = document.getElementById('productsGrid');
-            const list = (data && data.length > 0) ? data : promoData;
+            
+            // منتجات تجريبية لو المتجر فاضي
+            const list = (data && data.length > 0) ? data : [
+                { id: '1', name: "حقيبة النصر الفاخرة", price: "50,000", images: ["https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=800"] }
+            ];
 
             grid.innerHTML = list.map(p => `
-                <div class="product-card group">
-                    <div class="relative aspect-[3/4] overflow-hidden rounded-[2.5rem] bg-gray-100">
-                        <img src="${p.images[0]}" class="w-full h-full object-cover transition duration-[1.5s] group-hover:scale-110">
-                        <a href="${p.images[0]}" download class="save-btn absolute top-6 left-6 p-4 rounded-full opacity-0 group-hover:opacity-100 transition shadow-xl">
-                            <svg width="18" height="18" fill="none" stroke="black" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                        </a>
+                <div class="product-card rounded-[2rem] overflow-hidden p-4 relative group">
+                    <div class="relative overflow-hidden rounded-[1.5rem] aspect-[4/5] mb-6">
+                        <img src="${p.images[0]}" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                        <button onclick="saveImage('${p.images[0]}', '${p.name}')" class="absolute top-4 left-4 bg-black/50 backdrop-blur-md p-3 rounded-full opacity-0 group-hover:opacity-100 transition">
+                            <svg width="20" height="20" fill="white" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                        </button>
                     </div>
-                    <div class="mt-8 flex justify-between items-start px-2">
-                        <div>
-                            <h3 class="text-xl font-bold tracking-tight">${p.name}</h3>
-                            <p class="text-gray-400 text-xs mt-2 uppercase tracking-widest italic">${p.description ? p.description.substring(0, 30) : 'قطعة يدوية فريدة'}</p>
+                    <div class="px-4 pb-4">
+                        <h3 class="luxury-text text-2xl mb-2">${p.name}</h3>
+                        <div class="flex justify-between items-center">
+                            <span class="text-[#c5a059] font-bold">${p.price} SDG</span>
+                            <a href="https://wa.me/249900623733?text=طلب_${p.name}" class="text-[10px] uppercase font-bold border-b border-[#c5a059] pb-1 hover:text-white transition">اطلب هنا</a>
                         </div>
-                        <div class="text-right">
-                            <p class="text-lg font-medium text-accent">${p.price} <span class="text-[10px]">SDG</span></p>
-                            <a href="https://wa.me/249900623733?text=أود_طلب_${p.name}" class="text-[10px] font-bold border-b border-black mt-3 inline-block hover:text-accent hover:border-accent transition">طلب القطعة</a>
-                        </div>
+                        ${isAdmin ? `<button onclick="deleteProduct('${p.id}')" class="mt-4 text-red-500 text-[10px] underline">حذف المنتج 🗑️</button>` : ''}
                     </div>
                 </div>
             `).join('');
