@@ -1,260 +1,129 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>KOSTI MARKET PRO | الموضة في كوستي</title>
-  
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
-
-  <style>
-    :root { --main: #000; --red: #ff4d4f; --gray: #f5f5f5; --border: #ebebeb; }
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
-    body { background-color: #fff; color: var(--main); padding-bottom: 80px; overflow-x: hidden; }
-
-    /* Header */
-    header { position: sticky; top: 0; z-index: 1000; background: #fff; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
-    .logo { font-size: 24px; font-weight: 900; letter-spacing: 2px; }
-    
-    /* Navigation System */
-    .page-section { display: none; min-height: 100vh; }
-    .page-section.active { display: block; animation: fadeIn 0.5s; }
-
-    /* Swiper Slider (زي شي إن) */
-    .swiper { width: 100%; height: 200px; margin-bottom: 20px; }
-    .swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
-
-    /* Categories Grid */
-    .cat-bar { display: flex; overflow-x: auto; padding: 15px; gap: 20px; scrollbar-width: none; }
-    .cat-item { text-align: center; min-width: 60px; }
-    .cat-circle { width: 55px; height: 55px; background: var(--gray); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 5px; font-size: 20px; }
-
-    /* Product Cards */
-    .products-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px; }
-    .p-card { background: #fff; position: relative; margin-bottom: 15px; }
-    .p-img-box { width: 100%; aspect-ratio: 3/4; background: var(--gray); border-radius: 4px; overflow: hidden; position: relative; }
-    .p-img-box img { width: 100%; height: 100%; object-fit: cover; }
-    .p-info { padding: 8px 2px; }
-    .p-title { font-size: 12px; color: #666; margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
-    .p-price { font-weight: 800; font-size: 15px; }
-    .add-to-cart-btn { position: absolute; bottom: 10px; left: 10px; background: rgba(255,255,255,0.9); border: 1px solid #ddd; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-
-    /* Form UI */
-    .auth-container { padding: 40px 20px; text-align: center; }
-    .input-field { width: 100%; padding: 14px; margin-bottom: 15px; border: 1px solid var(--border); background: var(--gray); border-radius: 2px; outline: none; }
-    .main-btn { width: 100%; padding: 16px; background: var(--main); color: #fff; border: none; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; }
-
-    /* Bottom Nav */
-    .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #fff; border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 12px 0; z-index: 2000; }
-    .nav-btn { text-align: center; color: #999; flex: 1; cursor: pointer; transition: 0.3s; }
-    .nav-btn.active { color: var(--main); font-weight: 800; }
-    .nav-btn i { font-size: 20px; margin-bottom: 4px; }
-    .nav-btn p { font-size: 10px; }
-
-    /* WhatsApp Button */
-    .wa-float { position: fixed; bottom: 90px; left: 20px; background: #25D366; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 100; }
-
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KOSTI MARKET PRO | كوستي ماركت</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Tajawal', sans-serif; background-color: #f8fafc; }
+        .category-card:hover { transform: translateY(-5px); transition: 0.3s; }
+    </style>
 </head>
 <body>
 
-  <header>
-    <div class="logo">KOSTI MARKET</div>
-    <div style="display: flex; gap: 15px; font-size: 18px;">
-      <i class="fa-regular fa-heart"></i>
-      <i class="fa-solid fa-magnifying-glass"></i>
-    </div>
-  </header>
-
-  <section id="home" class="page-section active">
-    <div class="swiper mySwiper">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800"></div>
-        <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=800"></div>
-      </div>
-      <div class="swiper-pagination"></div>
-    </div>
-
-    <div class="cat-bar">
-      <div class="cat-item"><div class="cat-circle">👗</div><span>ملابس</span></div>
-      <div class="cat-item"><div class="cat-circle">📱</div><span>تقنية</span></div>
-      <div class="cat-item"><div class="cat-circle">💄</div><span>جمال</span></div>
-      <div class="cat-item"><div class="cat-circle">🏠</div><span>منزل</span></div>
-      <div class="cat-item"><div class="cat-circle">👟</div><span>أحذية</span></div>
-    </div>
-
-    <h2 style="padding: 10px 15px; font-size: 18px; letter-spacing: 1px;">أحدث المنتجات</h2>
-    <div id="products-list" class="products-grid">
+    <header class="bg-blue-700 text-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold italic">KOSTI MARKET</h1>
+            <nav class="hidden md:flex gap-6">
+                <a href="#" onclick="filterCategory('all')" class="hover:text-yellow-400">الرئيسية</a>
+                <a href="#vendor-section" class="hover:text-yellow-400">لوحة التاجر</a>
+            </nav>
+            <button onclick="document.getElementById('vendor-modal').classList.toggle('hidden')" class="bg-yellow-500 text-blue-900 px-4 py-2 rounded-lg font-bold">إضافة منتج +</button>
         </div>
-  </section>
+    </header>
 
-  <section id="cart" class="page-section">
-    <div style="padding: 20px;">
-        <h3>حقيبة التسوق</h3>
-        <div id="cart-items" style="margin: 30px 0; text-align: center; color: #999;">حقيبتك فارغة، ابدأ التسوق الآن!</div>
-        <div id="checkout-area" style="display: none;">
-            <input type="text" id="cust-name" class="input-field" placeholder="اسمك الكامل">
-            <input type="tel" id="cust-phone" class="input-field" placeholder="رقم الهاتف للاتصال">
-            <div style="display: flex; justify-content: space-between; margin: 20px 0; font-weight: 900; font-size: 18px;">
-                <span>الإجمالي:</span>
-                <span id="cart-total">0 ج.س</span>
-            </div>
-            <button class="main-btn" onclick="sendToWhatsApp()">إرسال الطلب عبر واتساب</button>
+    <div class="bg-white shadow-sm overflow-x-auto">
+        <div class="container mx-auto px-4 py-3 flex gap-4 text-sm font-bold whitespace-nowrap">
+            <button onclick="filterCategory('clothes')" class="px-4 py-2 bg-gray-100 rounded-full hover:bg-blue-100">الملابس</button>
+            <button onclick="filterCategory('phones')" class="px-4 py-2 bg-gray-100 rounded-full hover:bg-blue-100">الهواتف</button>
+            <button onclick="filterCategory('cars')" class="px-4 py-2 bg-gray-100 rounded-full hover:bg-blue-100">السيارات</button>
+            <button onclick="filterCategory('electric')" class="px-4 py-2 bg-gray-100 rounded-full hover:bg-blue-100">أدوات كهربائية</button>
         </div>
     </div>
-  </section>
 
-  <section id="profile" class="page-section">
-    <div id="auth-box" class="auth-container">
-        <h2 style="margin-bottom: 10px;">انضم إلينا</h2>
-        <p style="color: #666; margin-bottom: 30px; font-size: 14px;">سجل لتتمكن من البيع والشراء وإدارة طلباتك</p>
-        <input type="email" id="email" class="input-field" placeholder="البريد الإلكتروني">
-        <input type="password" id="pass" class="input-field" placeholder="كلمة المرور">
-        <button class="main-btn" onclick="authAction()">تسجيل دخول / اشتراك</button>
-    </div>
-
-    <div id="user-info" style="display: none; padding: 20px;">
-        <div style="background: #000; color: #fff; padding: 30px; border-radius: 8px; margin-bottom: 20px;">
-            <p style="opacity: 0.7;">مرحباً بك،</p>
-            <h2 id="user-email-display">المستخدم</h2>
-            <p id="user-role" style="font-size: 12px; margin-top: 10px; color: var(--red);">مشتري عادي</p>
-        </div>
+    <main class="container mx-auto px-4 py-8">
+        <h2 id="category-title" class="text-xl font-bold mb-6 border-r-4 border-blue-700 pr-3">كل المنتجات</h2>
         
-        <div id="vendor-panel" style="display: none; border: 1px solid #ddd; padding: 20px;">
-            <h4>إضافة منتج جديد (للتاجر)</h4>
-            <input type="text" id="p-title" class="input-field" style="margin-top: 15px;" placeholder="اسم المنتج">
-            <input type="number" id="p-price" class="input-field" placeholder="السعر">
-            <input type="text" id="p-img" class="input-field" placeholder="رابط صورة المنتج">
-            <button class="main-btn" style="background: #27ae60;" onclick="addProduct()">نشر المنتج الآن</button>
-        </div>
-
-        <button onclick="logout()" style="margin-top: 30px; color: red; background: none; border: none; font-weight: 700;">تسجيل الخروج</button>
-    </div>
-  </section>
-
-  <a href="https://wa.me/249900623733" class="wa-float"><i class="fa-brands fa-whatsapp"></i></a>
-
-  <nav class="bottom-nav">
-    <div class="nav-btn active" onclick="nav('home')"><i class="fa-solid fa-house"></i><p>الرئيسية</p></div>
-    <div class="nav-btn" onclick="nav('cart')"><i class="fa-solid fa-bag-shopping"></i><p>السلة</p></div>
-    <div class="nav-btn" onclick="nav('profile')"><i class="fa-regular fa-user"></i><p>حسابي</p></div>
-  </nav>
-
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  
-  <script>
-    // --- الربط مع Supabase ---
-    const SB_URL = 'https://bxbglomvulnzehruubdh.supabase.co';
-    const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ4Ymdsb212dWxuemVocnV1YmRoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Mzg5MDYsImV4cCI6MjA5MjUxNDkwNn0.rqIZHvP47QugH9vG0LW8OkkmAVYEzhOwv-VUKJuEqOY';
-    const supabase = window.supabase.createClient(SB_URL, SB_KEY);
-
-    let cart = [];
-
-    // --- نظام التنقل ---
-    function nav(id) {
-        document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        event.currentTarget.classList.add('active');
-    }
-
-    // --- تحميل المنتجات ---
-    async function fetchProducts() {
-        const { data, error } = await supabase.from('products').select('*').eq('is_active', true);
-        const list = document.getElementById('products-list');
-        if (error) { list.innerHTML = "تأكد من إعداد جداول Supabase"; return; }
-        
-        list.innerHTML = data.map(p => `
-            <div class="p-card animate__animated animate__fadeInUp">
-                <div class="p-img-box">
-                    <img src="${p.images?.[0] || 'https://via.placeholder.com/300x400'}" alt="${p.title}">
-                    <button class="add-to-cart-btn" onclick="addToCart('${p.title}', ${p.price})"><i class="fa-solid fa-plus"></i></button>
-                </div>
-                <div class="p-info">
-                    <p class="p-title">${p.title}</p>
-                    <p class="p-price">${p.price} ج.س</p>
-                </div>
+        <div id="products-container" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
             </div>
-        `).join('');
-    }
+    </main>
 
-    // --- السلة ---
-    function addToCart(title, price) {
-        cart.push({title, price});
-        alert("تمت الإضافة للسلة!");
-        updateCartUI();
-    }
+    <div id="vendor-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[60]">
+        <div class="bg-white rounded-xl p-6 w-full max-w-md">
+            <h3 class="text-lg font-bold mb-4 text-center">إضافة منتج جديد (لوحة التاجر)</h3>
+            <div class="space-y-4">
+                <input type="text" id="p-name" placeholder="اسم المنتج" class="w-full border p-2 rounded">
+                <select id="p-cat" class="w-full border p-2 rounded">
+                    <option value="clothes">ملابس</option>
+                    <option value="phones">هواتف</option>
+                    <option value="cars">سيارات</option>
+                    <option value="electric">أدوات كهربائية</option>
+                </select>
+                <input type="number" id="p-price" placeholder="السعر الأصلي للتاجر" class="w-full border p-2 rounded">
+                <p class="text-xs text-gray-500">* سيتم إضافة عمولة 10% تلقائياً على السعر المعرض.</p>
+                <button onclick="addProduct()" class="w-full bg-blue-700 text-white py-3 rounded-lg font-bold">نشر المنتج</button>
+                <button onclick="document.getElementById('vendor-modal').classList.add('hidden')" class="w-full text-gray-500">إلغاء</button>
+            </div>
+        </div>
+    </div>
 
-    function updateCartUI() {
-        const container = document.getElementById('cart-items');
-        if (cart.length > 0) {
-            document.getElementById('checkout-area').style.display = 'block';
-            let total = 0;
-            container.innerHTML = cart.map(item => {
-                total += item.price;
-                return `<div style="display:flex; justify-content:space-between; margin-bottom:10px; border-bottom:1px solid #eee; padding-bottom:5px;">
-                    <span>${item.title}</span><b>${item.price} ج.س</b>
-                </div>`;
-            }).join('');
-            document.getElementById('cart-total').innerText = Math.round(total * 1.1) + " ج.س";
+    <a href="https://wa.me/249XXXXXXXXX" class="fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-2xl hover:scale-110 transition">
+        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.588-5.946 0-6.556 5.332-11.891 11.891-11.891 3.181 0 6.167 1.24 8.407 3.481 2.242 2.242 3.483 5.23 3.483 8.411 0 6.556-5.332 11.891-11.891 11.891-2.01 0-3.991-.51-5.747-1.474l-6.342 1.7zm6.349-4.116l.456.271c1.511.903 3.243 1.38 5.033 1.38 5.453 0 9.891-4.438 9.891-9.891 0-2.646-1.03-5.132-2.901-7.003-1.871-1.871-4.357-2.901-7.003-2.901-5.453 0-9.891 4.438-9.891 9.891 0 2.13.593 4.21 1.717 6.009l.298.476-1.12 4.09 4.18-.11z"/></svg>
+    </a>
+
+    <script>
+        // قاعدة بيانات تجريبية
+        let products = [
+            { id: 1, name: "آيفون 15 برو", price: 1200, category: "phones", img: "https://via.placeholder.com/150" },
+            { id: 2, name: "طقم كاجوال صيفي", price: 45, category: "clothes", img: "https://via.placeholder.com/150" },
+        ];
+
+        const commission = 0.10; // 10% عمولة
+
+        function displayProducts(filteredList) {
+            const container = document.getElementById('products-container');
+            container.innerHTML = '';
+            
+            filteredList.forEach(p => {
+                const finalPrice = p.price + (p.price * commission);
+                container.innerHTML += `
+                    <div class="bg-white p-4 rounded-xl shadow-sm category-card border border-gray-100">
+                        <img src="${p.img}" class="w-full h-40 object-cover rounded-lg mb-4">
+                        <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">${p.category}</span>
+                        <h3 class="font-bold mt-2">${p.name}</h3>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-green-600 font-bold">${finalPrice} $</span>
+                            <button onclick="sendOrder('${p.name}', ${finalPrice})" class="bg-green-500 text-white px-3 py-1 rounded-md text-sm">طلب عبر واتساب</button>
+                        </div>
+                    </div>
+                `;
+            });
         }
-    }
 
-    function sendToWhatsApp() {
-        const name = document.getElementById('cust-name').value;
-        const phone = document.getElementById('cust-phone').value;
-        if(!name || !phone) return alert("اكمل بياناتك يا ذوق!");
-        let msg = `*طلب جديد من Kosti Market*\nاسم العميل: ${name}\nرقم الهاتف: ${phone}\n---\n`;
-        cart.forEach((p, i) => msg += `${i+1}. ${p.title} (${p.price}ج)\n`);
-        window.open(`https://wa.me/249900623733?text=${encodeURIComponent(msg)}`);
-    }
-
-    // --- نظام الدخول ---
-    async function authAction() {
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('pass').value;
-        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) {
-            const { error: upErr } = await supabase.auth.signUp({ email, password });
-            if (upErr) alert(upErr.message); else alert("تم إنشاء الحساب! سجل دخولك.");
-        } else { location.reload(); }
-    }
-
-    async function checkUser() {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (user) {
-            document.getElementById('auth-box').style.display = 'none';
-            document.getElementById('user-info').style.display = 'block';
-            document.getElementById('user-email-display').innerText = user.email.split('@')[0];
-            const { data: prof } = await supabase.from('profiles').select('*').eq('id', user.id).single();
-            if (prof?.role === 'vendor') {
-                document.getElementById('vendor-panel').style.display = 'block';
-                document.getElementById('user-role').innerText = "حساب تاجر معتمد ✅";
+        function filterCategory(cat) {
+            if(cat === 'all') {
+                displayProducts(products);
+                document.getElementById('category-title').innerText = "كل المنتجات";
+            } else {
+                const filtered = products.filter(p => p.category === cat);
+                displayProducts(filtered);
+                document.getElementById('category-title').innerText = "قسم: " + cat;
             }
         }
-    }
 
-    async function addProduct() {
-        const { data: { user } } = await supabase.auth.getUser();
-        const title = document.getElementById('p-title').value;
-        const price = document.getElementById('p-price').value;
-        const img = document.getElementById('p-img').value;
-        await supabase.from('products').insert([{ title, price, images: [img], vendor_id: user.id, is_active: true }]);
-        alert("تم النشر بنجاح!");
-        location.reload();
-    }
+        function addProduct() {
+            const name = document.getElementById('p-name').value;
+            const price = parseFloat(document.getElementById('p-price').value);
+            const cat = document.getElementById('p-cat').value;
 
-    function logout() { supabase.auth.signOut(); location.reload(); }
+            if(name && price) {
+                products.push({ id: Date.now(), name, price, category: cat, img: "https://via.placeholder.com/150" });
+                displayProducts(products);
+                document.getElementById('vendor-modal').classList.add('hidden');
+                alert("تم إضافة المنتج بنجاح مع احتساب العمولة!");
+            }
+        }
 
-    // تشغيل السلايدر
-    new Swiper(".mySwiper", { pagination: { el: ".swiper-pagination", clickable: true }, autoplay: { delay: 3000 } });
+        function sendOrder(name, price) {
+            const phone = "249XXXXXXXXX"; // ضع رقمك هنا
+            const message = `مرحباً كوستي ماركت، أريد طلب: ${name}\nالسعر الإجمالي: ${price} $`;
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`);
+        }
 
-    window.onload = () => { fetchProducts(); checkUser(); };
-  </script>
+        // تشغيل العرض الأول
+        displayProducts(products);
+    </script>
 </body>
 </html>
