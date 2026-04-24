@@ -3,183 +3,189 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Best Bags | عالم الأناقة النسائية</title>
+    <title>Best Bags | متجر الأناقة الشامل</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Reem+Kufi:wght@700&display=swap" rel="stylesheet">
     <style>
         :root { --main-pink: #ff4d8d; --soft-pink: #fff0f5; --gold: #d4af37; --text-dark: #2d2d2d; }
-        body { font-family: 'Cairo', sans-serif; background-color: var(--soft-pink); color: var(--text-dark); overflow-x: hidden; }
+        body { font-family: 'Cairo', sans-serif; background-color: var(--soft-pink); color: var(--text-dark); overflow-x: hidden; scroll-behavior: smooth; }
         .font-title { font-family: 'Reem Kufi', sans-serif; }
 
-        /* تصميم الاسم 3D */
-        .logo-3d {
-            font-size: 3rem; font-weight: 900; color: var(--main-pink);
-            text-shadow: 1px 1px 0px #ffb6c1, 2px 2px 0px #ffb6c1, 3px 3px 0px #ffb6c1, 4px 4px 15px rgba(0,0,0,0.1);
-            transition: 0.5s; cursor: pointer; display: inline-block;
+        /* شريط التنقل العلوي */
+        .nav-tab {
+            position: relative; padding: 10px 20px; font-weight: 700; color: #888;
+            transition: 0.3s; cursor: pointer; border-radius: 12px;
         }
-        .logo-3d:hover { transform: scale(1.1) rotate(-2deg); text-shadow: 1px 1px 0px var(--gold), 5px 5px 20px rgba(255, 77, 141, 0.3); }
+        .nav-tab.active { color: var(--main-pink); background: white; shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .nav-tab.active::after {
+            content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+            width: 20px; height: 4px; background: var(--main-pink); border-radius: 10px;
+        }
 
-        /* بطاقة المنتج */
+        .logo-3d {
+            font-size: 2.5rem; font-weight: 900; color: var(--main-pink);
+            text-shadow: 1px 1px 0px #ffb6c1, 3px 3px 10px rgba(0,0,0,0.1);
+            transition: 0.5s; cursor: pointer;
+        }
+
+        /* البطاقات */
         .bag-card {
             background: #fff; border-radius: 2.5rem; padding: 1rem;
-            box-shadow: 20px 20px 60px #d9cad0, -20px -20px 60px #ffffff;
-            transition: 0.4s; border: 2px solid transparent;
+            box-shadow: 15px 15px 40px #e6d5db, -15px -15px 40px #ffffff;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .bag-card:hover { transform: scale(1.03); border-color: var(--main-pink); }
+        .bag-card:hover { transform: translateY(-10px); }
 
-        /* السلايدر بالسحب */
-        .swipe-container {
-            display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
-            scrollbar-width: none; cursor: grab; border-radius: 2rem;
+        .btn-primary {
+            background: linear-gradient(135deg, var(--main-pink), #ff85a1);
+            color: white; font-weight: 900; border-radius: 1.2rem; transition: 0.3s;
         }
+        .btn-secondary {
+            border: 2px solid #ffdae9; color: var(--main-pink);
+            font-weight: 900; border-radius: 1.2rem; transition: 0.3s;
+        }
+
+        .swipe-container { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; border-radius: 2rem; }
         .swipe-container::-webkit-scrollbar { display: none; }
         .swipe-item { min-width: 100%; scroll-snap-align: center; height: 400px; }
         .swipe-item img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* الأزرار */
-        .btn-primary {
-            background: linear-gradient(135deg, var(--main-pink), #ff85a1);
-            color: white; font-weight: 900; border-radius: 1.2rem;
-            transition: 0.3s; box-shadow: 0 10px 20px rgba(255, 77, 141, 0.2);
-        }
-        .btn-secondary {
-            border: 2px solid #ffdae9; color: var(--main-pink);
-            font-weight: 700; border-radius: 1.2rem; transition: 0.3s;
-        }
-        .btn-secondary:hover { background: #fff0f5; }
+        .modal-animate-in { animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes popIn { 0% { opacity: 0; transform: scale(0.9) translateY(20px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
 
-        .back-btn {
-            position: fixed; top: 20px; right: 20px; z-index: 250;
-            background: var(--main-pink); color: white; padding: 12px 24px;
-            border-radius: 1rem; font-weight: bold; box-shadow: 0 10px 20px rgba(255, 77, 141, 0.3);
-        }
-
-        .login-input {
-            width: 100%; background: #f8f8f8; border: 2px solid #eee;
-            padding: 1rem; border-radius: 1rem; margin-bottom: 1rem;
-            outline: none; transition: 0.3s;
-        }
-        .login-input:focus { border-color: var(--main-pink); background: #fff; }
-        .hidden-admin { display: none; }
-
-        /* تأثيرات النافذة المنبثقة */
-        .modal-animate-in { animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-        @keyframes popIn {
-            0% { opacity: 0; transform: scale(0.8); }
-            100% { opacity: 1; transform: scale(1); }
+        .category-badge {
+            position: absolute; top: 1rem; right: 1rem; background: rgba(255,255,255,0.9);
+            padding: 5px 15px; border-radius: 1rem; font-size: 0.8rem; font-weight: bold; color: var(--main-pink);
         }
     </style>
 </head>
 <body>
 
-    <nav class="fixed top-0 w-full z-[100] px-6 py-4 flex justify-between items-center bg-white/80 backdrop-blur-md border-b border-pink-100">
-        <div class="logo-3d font-title">Best Bags</div>
-        <a href="https://wa.me/249900623733" class="btn-primary px-6 py-2 text-sm">تواصلِ معنا</a>
-    </nav>
+    <header class="fixed top-0 w-full z-[100] bg-white/70 backdrop-blur-xl border-b border-pink-50">
+        <div class="max-w-7xl mx-auto px-6 py-3 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="logo-3d font-title" onclick="filterCategory('الكل')">Best Bags</div>
+            
+            <nav class="flex bg-pink-50/50 p-1 rounded-2xl border border-pink-100">
+                <div class="nav-tab active" onclick="filterCategory('الكل', this)">الكل</div>
+                <div class="nav-tab" onclick="filterCategory('نسائي', this)">نسائي</div>
+                <div class="nav-tab" onclick="filterCategory('رجالي', this)">رجالي</div>
+                <div class="nav-tab" onclick="filterCategory('اطفالي', this)">أطفالي</div>
+            </nav>
 
-    <section class="h-[60vh] flex flex-col justify-center items-center text-center px-6 pt-24 bg-gradient-to-b from-white to-pink-50">
-        <h1 class="font-title text-5xl md:text-7xl text-gray-800 mb-4">أناقتكِ تبدأ من <span class="text-[#ff4d8d]">حقيبتكِ</span></h1>
-        <p class="text-gray-500 text-lg max-w-xl">مجموعة مختارة من الحقائب الجلدية الفاخرة التي تليق بجمالكِ.</p>
+            <a href="https://wa.me/249900623733" class="btn-primary px-6 py-2 text-sm hidden md:block">تواصلِ معنا</a>
+        </div>
+    </header>
+
+    <section class="pt-40 pb-10 text-center px-6">
+        <h1 id="categoryTitle" class="font-title text-4xl md:text-6xl text-gray-800 mb-2">أحدث التشكيلات</h1>
+        <p class="text-gray-400">نختار لكِ الأفضل دائماً بجودة عالمية</p>
     </section>
 
-    <section id="gallery" class="py-16 max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"></section>
+    <section id="gallery" class="py-10 max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 min-h-[400px]"></section>
 
-    <section id="adminZone" class="hidden-admin py-20 bg-white border-t-4 border-[#ff4d8d]">
-        <div class="max-w-2xl mx-auto p-8 shadow-2xl rounded-[2rem]">
+    <section id="adminZone" class="hidden py-20 bg-white border-t-8 border-[#ff4d8d]">
+        <div class="max-w-2xl mx-auto p-8 shadow-2xl rounded-[3rem] border border-pink-50">
             <div class="flex justify-between items-center mb-8">
-                <h2 class="font-title text-3xl text-gray-800">إدارة المتجر</h2>
-                <button onclick="openLogoutModal()" class="px-6 py-3 btn-secondary text-sm">تسجيل خروج 🔐</button>
+                <h2 class="font-title text-3xl text-gray-800">إضافة منتج جديد ➕</h2>
+                <button onclick="openLogoutModal()" class="btn-secondary px-4 py-2 text-xs">تسجيل خروج 🔐</button>
             </div>
-            <input type="text" id="pName" placeholder="اسم الحقيبة" class="login-input">
-            <input type="number" id="pPrice" placeholder="السعر" class="login-input">
-            <textarea id="pDesc" placeholder="الوصف..." class="login-input h-32"></textarea>
-            <input type="file" id="pFiles" multiple class="mb-6 block w-full text-sm">
-            <button onclick="uploadProduct()" id="uploadBtn" class="btn-primary w-full py-5 text-xl">نشر المنتج</button>
+            
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <input type="text" id="pName" placeholder="اسم المنتج" class="w-full p-4 bg-gray-50 rounded-2xl outline-none border-2 border-transparent focus:border-pink-300">
+                <input type="number" id="pPrice" placeholder="السعر" class="w-full p-4 bg-gray-50 rounded-2xl outline-none border-2 border-transparent focus:border-pink-300">
+            </div>
+
+            <select id="pCategory" class="w-full p-4 bg-gray-50 rounded-2xl mb-4 border-2 border-transparent focus:border-pink-300 font-bold text-gray-600">
+                <option value="نسائي">قسم نسائي</option>
+                <option value="رجالي">قسم رجالي</option>
+                <option value="اطفالي">قسم أطفالي</option>
+            </select>
+
+            <textarea id="pDesc" placeholder="وصف المنتج ومميزاته..." class="w-full p-4 bg-gray-50 rounded-2xl mb-4 h-32 outline-none border-2 border-transparent focus:border-pink-300"></textarea>
+            
+            <label class="block mb-6 cursor-pointer group">
+                <div class="border-2 border-dashed border-pink-200 rounded-3xl p-8 text-center group-hover:bg-pink-50 transition">
+                    <span class="text-gray-400 font-bold">📷 اضغط لرفع صور المنتج</span>
+                    <input type="file" id="pFiles" multiple class="hidden">
+                </div>
+            </label>
+
+            <button onclick="uploadProduct()" id="uploadBtn" class="btn-primary w-full py-5 text-xl shadow-xl">نشر في المتجر</button>
         </div>
     </section>
 
-    <footer class="py-12 text-center text-gray-400 text-sm tracking-widest relative">
+    <footer class="py-16 text-center text-gray-300 text-xs tracking-widest relative">
         BEST BAGS LUXURY COLLECTION © 2026
-        <div onclick="showLogin()" class="absolute bottom-5 left-1/2 -translate-x-1/2 w-4 h-4 cursor-pointer opacity-0"></div>
+        <div onclick="showLogin()" class="absolute bottom-5 left-1/2 -translate-x-1/2 w-8 h-8 cursor-pointer opacity-0"></div>
     </footer>
 
     <div id="productModal" class="fixed inset-0 z-[200] hidden bg-white overflow-y-auto">
-        <button onclick="closeModal()" class="back-btn">رجوع للمتجر ➔</button>
-        <div class="max-w-6xl mx-auto min-h-screen flex flex-col lg:flex-row items-center gap-12 p-6 pt-24 lg:pt-0">
+        <button onclick="closeModal()" class="fixed top-6 left-6 z-[250] bg-pink-500 text-white px-6 py-3 rounded-2xl font-bold shadow-lg">إغلاق ➔</button>
+        <div class="max-w-6xl mx-auto min-h-screen flex flex-col lg:flex-row items-center gap-12 p-8 pt-24">
             <div class="w-full lg:w-1/2">
-                <div class="swipe-container shadow-2xl border-4 border-white" id="swipeGallery"></div>
-                <div class="flex justify-center gap-2 mt-4" id="dotContainer"></div>
-                <p class="text-center text-pink-300 text-xs mt-4 animate-pulse">اسحبي الصورة لمشاهدة المزيد ↔</p>
+                <div class="swipe-container shadow-2xl" id="swipeGallery"></div>
             </div>
             <div class="w-full lg:w-1/2 space-y-6 text-right">
                 <h2 id="modalTitle" class="font-title text-5xl text-gray-800"></h2>
                 <div class="inline-block bg-pink-100 text-[#ff4d8d] px-6 py-2 rounded-full font-black text-2xl" id="modalPrice"></div>
-                <div class="h-1 w-20 bg-gold rounded-full"></div>
-                <p id="modalDesc" class="text-gray-600 text-xl leading-relaxed bg-pink-50/50 p-6 rounded-3xl"></p>
-                <div class="grid grid-cols-1 gap-4 pt-6">
-                    <button id="orderWA" class="btn-primary py-6 text-lg">اطلبِ الآن عبر واتساب</button>
-                    <div class="flex gap-4">
-                        <button id="shareBtn" class="flex-1 py-4 btn-secondary">مشاركة</button>
-                        <button id="saveBtn" class="flex-1 py-4 btn-secondary">حفظ الصورة</button>
-                    </div>
-                </div>
+                <p id="modalDesc" class="text-gray-600 text-xl leading-relaxed bg-pink-50/50 p-8 rounded-[2rem]"></p>
+                <button id="orderWA" class="btn-primary w-full py-6 text-xl">اطلبِ الآن عبر واتساب</button>
+                <button id="saveBtn" class="btn-secondary w-full py-4">حفظ الصورة الفاتنة 🌸</button>
             </div>
-        </div>
-    </div>
-
-    <div id="loginModal" class="fixed inset-0 z-[300] hidden bg-[#ff4d8d] flex items-center justify-center p-6">
-        <div class="bg-white w-full max-w-sm rounded-[2.5rem] p-10 shadow-2xl text-center modal-animate-in">
-            <h3 class="font-title text-3xl mb-8">دخول الإدارة</h3>
-            <input type="email" id="admEmail" class="login-input text-center" placeholder="البريد">
-            <input type="password" id="admPass" class="login-input text-center" placeholder="كلمة المرور">
-            <button onclick="handleLogin()" class="btn-primary w-full py-4 mt-4">دخول</button>
-            <button onclick="hideLogin()" class="w-full mt-6 text-gray-400 text-sm underline">إغلاق</button>
         </div>
     </div>
 
     <div id="editModal" class="fixed inset-0 z-[400] hidden bg-gray-900/60 backdrop-blur-sm flex items-center justify-center p-6">
-        <div class="bg-white w-full max-w-lg rounded-[2.5rem] p-8 shadow-2xl modal-animate-in">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="font-title text-3xl text-gray-800">تعديل المنتج ✍️</h3>
-                <button onclick="closeEditModal()" class="text-gray-400 hover:text-[#ff4d8d] text-2xl font-bold">&times;</button>
-            </div>
+        <div class="bg-white w-full max-w-lg rounded-[3rem] p-8 shadow-2xl modal-animate-in">
+            <h3 class="font-title text-3xl mb-6">تعديل المنتج ✍️</h3>
             <input type="hidden" id="editPId">
-            <label class="block text-sm text-gray-500 mb-1 font-bold">اسم الحقيبة</label>
-            <input type="text" id="editPName" class="login-input font-bold text-gray-800">
-            <label class="block text-sm text-gray-500 mb-1 font-bold mt-2">السعر (SDG)</label>
-            <input type="number" id="editPPrice" class="login-input font-bold text-[#ff4d8d]">
-            <label class="block text-sm text-gray-500 mb-1 font-bold mt-2">المواصفات</label>
-            <textarea id="editPDesc" class="login-input h-32 leading-relaxed"></textarea>
-            <div class="flex gap-4 mt-6">
-                <button onclick="saveEdit()" id="saveEditBtn" class="flex-1 btn-primary py-4 text-lg">حفظ التعديلات</button>
-                <button onclick="closeEditModal()" class="flex-1 btn-secondary py-4 text-lg">إلغاء</button>
+            <input type="text" id="editPName" class="w-full p-4 bg-gray-50 rounded-2xl mb-4 border-2 border-pink-100 focus:border-pink-400 outline-none">
+            <input type="number" id="editPPrice" class="w-full p-4 bg-gray-50 rounded-2xl mb-4 border-2 border-pink-100 focus:border-pink-400 outline-none">
+            <select id="editPCategory" class="w-full p-4 bg-gray-50 rounded-2xl mb-4 border-2 border-pink-100 focus:border-pink-400 font-bold">
+                <option value="نسائي">نسائي</option>
+                <option value="رجالي">رجالي</option>
+                <option value="اطفالي">أطفالي</option>
+            </select>
+            <textarea id="editPDesc" class="w-full p-4 bg-gray-50 rounded-2xl mb-6 h-32 outline-none border-2 border-pink-100 focus:border-pink-400"></textarea>
+            <div class="flex gap-4">
+                <button onclick="saveEdit()" id="saveEditBtn" class="flex-1 btn-primary py-4">حفظ</button>
+                <button onclick="closeEditModal()" class="flex-1 btn-secondary py-4">إلغاء</button>
             </div>
         </div>
     </div>
 
     <div id="deleteModal" class="fixed inset-0 z-[500] hidden bg-gray-900/60 backdrop-blur-sm flex items-center justify-center p-6">
-        <div class="bg-white w-full max-w-sm rounded-[2.5rem] p-8 shadow-2xl modal-animate-in text-center">
-            <div class="w-20 h-20 bg-red-50 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4 text-4xl">🗑️</div>
-            <h3 class="font-title text-2xl text-gray-800 mb-2">تأكيد الحذف</h3>
-            <p class="text-gray-500 mb-8">هل أنتِ متأكدة من حذف هذا المنتج نهائياً؟</p>
+        <div class="bg-white w-full max-w-sm rounded-[3rem] p-8 shadow-2xl modal-animate-in text-center">
+            <div class="w-20 h-20 bg-pink-50 text-[#ff4d8d] rounded-full flex items-center justify-center mx-auto mb-4 text-4xl">🗑️</div>
+            <h3 class="font-title text-2xl mb-2">تأكيد الحذف</h3>
+            <p class="text-gray-400 mb-8">هل أنت متأكد من حذف هذا المنتج نهائياً؟</p>
             <input type="hidden" id="deletePId">
             <div class="flex flex-col gap-3">
-                <button onclick="confirmDelete()" id="confirmDeleteBtn" class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-4 rounded-2xl transition shadow-lg shadow-red-100">نعم، حذف المنتج</button>
-                <button onclick="closeDeleteModal()" class="w-full btn-secondary py-4">إلغاء</button>
+                <button onclick="confirmDelete()" id="confirmDeleteBtn" class="btn-primary py-4">نعم، احذفه</button>
+                <button onclick="closeDeleteModal()" class="btn-secondary py-4">تراجع</button>
             </div>
         </div>
     </div>
 
     <div id="logoutModal" class="fixed inset-0 z-[600] hidden bg-gray-900/60 backdrop-blur-sm flex items-center justify-center p-6">
-        <div class="bg-white w-full max-w-sm rounded-[2.5rem] p-8 shadow-2xl modal-animate-in text-center">
+        <div class="bg-white w-full max-w-sm rounded-[3rem] p-8 shadow-2xl modal-animate-in text-center">
             <div class="w-20 h-20 bg-pink-50 text-[#ff4d8d] rounded-full flex items-center justify-center mx-auto mb-4 text-4xl">🔐</div>
-            <h3 class="font-title text-2xl text-gray-800 mb-2">تسجيل الخروج</h3>
-            <p class="text-gray-500 mb-8">هل تريدين الخروج من وضع الإدارة والعودة لوضع الزبائن؟</p>
+            <h3 class="font-title text-2xl mb-6">تسجيل الخروج؟</h3>
             <div class="flex flex-col gap-3">
-                <button onclick="handleLogout()" class="w-full btn-primary py-4">تأكيد الخروج</button>
-                <button onclick="closeLogoutModal()" class="w-full btn-secondary py-4">البقاء</button>
+                <button onclick="handleLogout()" class="btn-primary py-4">تأكيد الخروج</button>
+                <button onclick="closeLogoutModal()" class="btn-secondary py-4">البقاء</button>
             </div>
+        </div>
+    </div>
+
+    <div id="loginModal" class="fixed inset-0 z-[300] hidden bg-[#ff4d8d] flex items-center justify-center p-6">
+        <div class="bg-white w-full max-w-sm rounded-[3rem] p-10 shadow-2xl text-center modal-animate-in">
+            <h3 class="font-title text-3xl mb-8">دخول الإدارة</h3>
+            <input type="email" id="admEmail" class="w-full p-4 bg-gray-50 rounded-2xl mb-4 text-center border-2 border-transparent focus:border-pink-300 outline-none" placeholder="البريد">
+            <input type="password" id="admPass" class="w-full p-4 bg-gray-50 rounded-2xl mb-4 text-center border-2 border-transparent focus:border-pink-300 outline-none" placeholder="كلمة المرور">
+            <button onclick="handleLogin()" class="btn-primary w-full py-4 mt-4">دخول</button>
+            <button onclick="hideLogin()" class="mt-6 text-gray-400 underline cursor-pointer block w-full text-center">إغلاق</button>
         </div>
     </div>
 
@@ -188,61 +194,68 @@
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ4Ymdsb212dWxuemVocnV1YmRoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Mzg5MDYsImV4cCI6MjA5MjUxNDkwNn0.rqIZHvP47QugH9vG0LW8OkkmAVYEzhOwv-VUKJuEqOY';
         const _client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        let productsStore = [];
-        let currentImgs = [];
+        let allProducts = [];
+        let isAdmin = false;
 
-        async function handleLogin() {
-            const { error } = await _client.auth.signInWithPassword({
-                email: document.getElementById('admEmail').value,
-                password: document.getElementById('admPass').value
-            });
-            if (error) alert("بيانات خاطئة"); else location.reload();
-        }
-
-        /* دوال تسجيل الخروج المحدثة */
-        function openLogoutModal() { document.getElementById('logoutModal').style.display = 'flex'; }
-        function closeLogoutModal() { document.getElementById('logoutModal').style.display = 'none'; }
-        async function handleLogout() { await _client.auth.signOut(); location.reload(); }
-
-        function showLogin() { document.getElementById('loginModal').style.display = 'flex'; }
-        function hideLogin() { document.getElementById('loginModal').style.display = 'none'; }
-
-        function openModal(id) {
-            const p = productsStore.find(x => x.id == id);
-            currentImgs = p.images;
-            const gallery = document.getElementById('swipeGallery');
-            gallery.innerHTML = p.images.map(img => `<div class="swipe-item"><img src="${img}"></div>`).join('');
-            document.getElementById('modalTitle').innerText = p.name;
-            document.getElementById('modalPrice').innerText = `${p.price} SDG`;
-            document.getElementById('modalDesc').innerText = p.description || "قطعة فنية تضفي لمسة سحرية على إطلالتكِ.";
+        async function init() {
+            const { data } = await _client.from('products').select('*').order('created_at', {ascending: false});
+            allProducts = data || [];
             
-            document.getElementById('orderWA').onclick = () => {
-                const msg = `مرحباً Best Bags ✨\n\nأود طلب المنتج التالي:\n👜 الاسم: ${p.name}\n💰 السعر: ${p.price} SDG\n📝 الوصف: ${p.description || 'لا يوجد وصف'}`;
-                window.open(`https://wa.me/249900623733?text=${encodeURIComponent(msg)}`);
-            };
-
-            document.getElementById('shareBtn').onclick = () => {
-                if (navigator.share) {
-                    navigator.share({ title: p.name, text: `شوفي هذي الحقيبة من Best Bags: ${p.name}`, url: window.location.href });
-                }
-            };
-
-            document.getElementById('saveBtn').onclick = async () => {
-                const index = Math.round(gallery.scrollLeft / gallery.clientWidth);
-                const res = await fetch(currentImgs[index]);
-                const b = await res.blob();
-                const l = document.createElement('a'); l.href = URL.createObjectURL(b); l.download = `${p.name}.jpg`; l.click();
-            };
-            document.getElementById('productModal').style.display = 'block';
-            document.body.style.overflow = 'hidden';
+            const sess = await _client.auth.getSession();
+            isAdmin = !!sess.data.session;
+            if(isAdmin) document.getElementById('adminZone').classList.remove('hidden');
+            
+            renderGallery(allProducts);
         }
 
-        function closeModal() { document.getElementById('productModal').style.display = 'none'; document.body.style.overflow = 'auto'; }
+        function renderGallery(products) {
+            const grid = document.getElementById('gallery');
+            grid.innerHTML = products.length ? products.map(p => `
+                <div class="bag-card group cursor-pointer modal-animate-in" onclick="openModal('${p.id}')">
+                    <div class="relative h-80 overflow-hidden rounded-[2rem] mb-6">
+                        <img src="${p.images[0]}" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                        <div class="category-badge">${p.category || 'عام'}</div>
+                        <div class="absolute bottom-4 left-4 bg-white/95 px-5 py-2 rounded-full font-black text-[#ff4d8d] shadow-xl text-lg">${p.price} SDG</div>
+                    </div>
+                    <div class="px-2">
+                        <h3 class="font-title text-2xl text-gray-800 mb-2">${p.name}</h3>
+                        ${isAdmin ? `
+                        <div class="flex gap-3 mt-4" onclick="event.stopPropagation()">
+                            <button onclick="openEditModal('${p.id}')" class="flex-1 py-3 btn-secondary text-sm">تعديل ✍️</button>
+                            <button onclick="openDeleteModal('${p.id}')" class="flex-1 py-3 btn-secondary text-sm">حذف 🗑️</button>
+                        </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('') : '<div class="col-span-full text-center text-gray-400 py-20">لا توجد منتجات في هذا القسم حالياً..</div>';
+        }
+
+        function filterCategory(cat, el) {
+            // تحديث ستايل التابات
+            if(el) {
+                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                el.classList.add('active');
+            }
+
+            document.getElementById('categoryTitle').innerText = cat === 'الكل' ? 'أحدث التشكيلات' : `قسم الـ ${cat}`;
+            
+            const filtered = cat === 'الكل' ? allProducts : allProducts.filter(p => p.category === cat);
+            
+            const grid = document.getElementById('gallery');
+            grid.style.opacity = '0';
+            setTimeout(() => {
+                renderGallery(filtered);
+                grid.style.opacity = '1';
+                window.scrollTo({top: 400, behavior: 'smooth'});
+            }, 300);
+        }
 
         async function uploadProduct() {
             const btn = document.getElementById('uploadBtn');
-            btn.innerText = "جاري النشر...";
             const files = document.getElementById('pFiles').files;
+            if(!files.length) return alert("اختر صوراً أولاً");
+
+            btn.innerText = "جاري النشر...";
             try {
                 let urls = [];
                 for (let f of files) {
@@ -255,82 +268,69 @@
                     name: document.getElementById('pName').value,
                     price: document.getElementById('pPrice').value,
                     description: document.getElementById('pDesc').value,
+                    category: document.getElementById('pCategory').value,
                     images: urls
                 }]);
                 location.reload();
-            } catch (e) { alert("حدث خطأ"); }
+            } catch (e) { alert("حدث خطأ"); btn.innerText = "نشر في المتجر"; }
         }
 
-        async function init() {
-            const { data } = await _client.from('products').select('*').order('created_at', {ascending: false});
-            productsStore = data || [];
-            const grid = document.getElementById('gallery');
-            const sess = await _client.auth.getSession();
-            const isAdmin = sess.data.session;
-
-            grid.innerHTML = productsStore.map(p => `
-                <div class="bag-card group cursor-pointer" onclick="openModal('${p.id}')">
-                    <div class="relative h-80 overflow-hidden rounded-[2rem] mb-6">
-                        <img src="${p.images[0]}" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
-                        <div class="absolute bottom-4 left-4 bg-white/90 px-4 py-2 rounded-full font-bold text-[#ff4d8d] shadow-lg">${p.price} SDG</div>
-                    </div>
-                    <div class="px-2">
-                        <h3 class="font-title text-2xl text-gray-800 mb-2">${p.name}</h3>
-                        ${isAdmin ? `
-                        <div class="flex gap-4 mt-4" onclick="event.stopPropagation()">
-                            <button onclick="editP('${p.id}')" class="flex-1 py-4 btn-secondary text-sm">تعديل ✍️</button>
-                            <button onclick="openDeleteP('${p.id}')" class="flex-1 py-4 btn-secondary text-sm">حذف 🗑️</button>
-                        </div>
-                        ` : ''}
-                    </div>
-                </div>
-            `).join('');
-            if(isAdmin) document.getElementById('adminZone').classList.remove('hidden-admin');
+        /* دوال النوافذ (نفس الكود السابق مع تعديلات بسيطة للقسم) */
+        function openModal(id) {
+            const p = allProducts.find(x => x.id == id);
+            document.getElementById('swipeGallery').innerHTML = p.images.map(img => `<div class="swipe-item"><img src="${img}"></div>`).join('');
+            document.getElementById('modalTitle').innerText = p.name;
+            document.getElementById('modalPrice').innerText = `${p.price} SDG`;
+            document.getElementById('modalDesc').innerText = p.description || "قطعة مميزة تليق بكِ.";
+            document.getElementById('orderWA').onclick = () => {
+                const msg = `طلب من ${p.category}: ${p.name} - السعر: ${p.price}`;
+                window.open(`https://wa.me/249900623733?text=${encodeURIComponent(msg)}`);
+            };
+            document.getElementById('productModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
         }
 
-        function editP(id) {
-            const p = productsStore.find(x => x.id == id);
-            if(!p) return;
+        function closeModal() { document.getElementById('productModal').style.display = 'none'; document.body.style.overflow = 'auto'; }
+
+        function openEditModal(id) {
+            const p = allProducts.find(x => x.id == id);
             document.getElementById('editPId').value = p.id;
             document.getElementById('editPName').value = p.name;
             document.getElementById('editPPrice').value = p.price;
-            document.getElementById('editPDesc').value = p.description || "";
+            document.getElementById('editPCategory').value = p.category || 'نسائي';
+            document.getElementById('editPDesc').value = p.description;
             document.getElementById('editModal').style.display = 'flex';
         }
-
         function closeEditModal() { document.getElementById('editModal').style.display = 'none'; }
 
         async function saveEdit() {
             const id = document.getElementById('editPId').value;
-            const btn = document.getElementById('saveEditBtn');
-            btn.innerText = "جاري الحفظ...";
-            try {
-                await _client.from('products').update({
-                    name: document.getElementById('editPName').value,
-                    price: document.getElementById('editPPrice').value,
-                    description: document.getElementById('editPDesc').value
-                }).eq('id', id);
-                location.reload();
-            } catch (e) { alert("خطأ"); btn.innerText = "حفظ التعديلات"; }
+            await _client.from('products').update({
+                name: document.getElementById('editPName').value,
+                price: document.getElementById('editPPrice').value,
+                category: document.getElementById('editPCategory').value,
+                description: document.getElementById('editPDesc').value
+            }).eq('id', id);
+            location.reload();
         }
 
-        function openDeleteP(id) {
-            document.getElementById('deletePId').value = id;
-            document.getElementById('deleteModal').style.display = 'flex';
-        }
-
+        function openDeleteModal(id) { document.getElementById('deletePId').value = id; document.getElementById('deleteModal').style.display = 'flex'; }
         function closeDeleteModal() { document.getElementById('deleteModal').style.display = 'none'; }
+        async function confirmDelete() { await _client.from('products').delete().eq('id', document.getElementById('deletePId').value); location.reload(); }
 
-        async function confirmDelete() {
-            const id = document.getElementById('deletePId').value;
-            const btn = document.getElementById('confirmDeleteBtn');
-            btn.innerText = "جاري الحذف...";
-            try {
-                await _client.from('products').delete().eq('id', id);
-                location.reload();
-            } catch (e) { alert("حدث خطأ"); btn.innerText = "نعم، حذف المنتج"; }
+        async function handleLogin() {
+            const { error } = await _client.auth.signInWithPassword({
+                email: document.getElementById('admEmail').value,
+                password: document.getElementById('admPass').value
+            });
+            if (error) alert("بيانات خاطئة"); else location.reload();
         }
-        
+        function openLogoutModal() { document.getElementById('logoutModal').style.display = 'flex'; }
+        function closeLogoutModal() { document.getElementById('logoutModal').style.display = 'none'; }
+        async function handleLogout() { await _client.auth.signOut(); location.reload(); }
+        function showLogin() { document.getElementById('loginModal').style.display = 'flex'; }
+        function hideLogin() { document.getElementById('loginModal').style.display = 'none'; }
+
         init();
     </script>
 </body>
