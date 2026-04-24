@@ -3,6 +3,7 @@
 ![Version](https://img.shields.io/badge/Version-2.5-ff4d8d)
 ![Tech](https://img.shields.io/badge/Tech-Tailwind_CSS-38bdf8)
 ![Database](https://img.shields.io/badge/Database-Supabase-3ecf8e)
+![Platform](https://img.shields.io/badge/Platform-GitHub_Pages-black)
 
 **Best Bags** هو منصة تجارة إلكترونية فاخرة متخصصة في عرض وبيع الحقائب الجلدية اليدوية. تم تصميم الموقع بتركيز عالٍ على تجربة المستخدم (UX) وجماليات التصميم (UI) لجذب الفئات المهتمة بالموضة والأناقة، مع لوحة تحكم متكاملة لإدارة المنتجات.
 
@@ -19,15 +20,43 @@
 
 ## 🛠 التكنولوجيا المستخدمة (Tech Stack)
 
-* **Frontend:** HTML5, Tailwind CSS (للإطارات والتنسيق)، JavaScript (ES6+).
+* **Frontend:** HTML5, Tailwind CSS, JavaScript (ES6+).
 * **Backend as a Service (BaaS):** [Supabase](https://supabase.com/) (Database & Storage).
-* **Animations:** CSS3 Keyframes & Transitions لإنشاء تأثيرات الـ 3D والظهور السينمائي.
-* **Deployment:** GitHub Pages.
+* **Animations:** CSS3 Keyframes لإنشاء تأثيرات الـ 3D والظهور السينمائي.
 
 ---
 
-## 🚀 كيفية التشغيل (Setup)
+## 🚀 كيفية التشغيل (Setup & Deployment)
 
-1. قم بعمل `Clone` للمستودع:
-   ```bash
-   git clone [https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git](https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git)
+بما أن المشروع يعتمد على **Client-side Architecture**، يمكنك تشغيله بسهولة كالتالي:
+
+1. **التشغيل المحلي (Local Run):**
+   * قم بتحميل ملفات المشروع.
+   * افتح ملف `index.html` مباشرة في أي متصفح ويب.
+   
+2. **إدارة المنتجات (Admin Access):**
+   * للوصول للوحة التحكم، قم بالنقر على الزر السري المخفي في أسفل الموقع (Footer).
+   * أدخل بيانات الإدارة المبرمجة مسبقاً في نظام Supabase Auth.
+
+3. **النشر (Deployment):**
+   * المشروع جاهز للنشر الفوري عبر **GitHub Pages** أو **Vercel** بمجرد رفع الكود للمستودع (Repository).
+
+---
+
+## 📸 نظرة على التصميم (Preview)
+
+* **الهوية البصرية:** تعتمد على الوردي المخملي والذهبي الملكي لتعزيز مفهوم الفخامة.
+* **العنوان:** يتميز بتأثير **3D Logo** تفاعلي يتفاعل مع حركة الماوس.
+
+---
+
+## 👨‍💻 المساهمة والتواصل
+
+هذا المشروع متاح كجزء من معرض أعمالي لتوضيح مهاراتي في بناء واجهات المستخدم المتقدمة وربطها بأنظمة الـ Cloud.
+
+**للتواصل والاستفسار:**
+* **WhatsApp:** [اضغط هنا للتواصل مباشرة](https://wa.me/249900623733)
+* **رقم الهاتف:** `+249900623733`
+
+---
+**Best Bags Luxury Collection © 2026**
