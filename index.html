@@ -3,129 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Best Bags | الفخامة اليدوية</title>
+    <title>Best Bags | عالم الأناقة النسائية</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;600;900&family=Amiri:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Reem+Kufi:wght@700&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #d4af37; --dark: #070707; --card: #111111; }
-        body { font-family: 'Cairo', sans-serif; background-color: var(--dark); color: #fff; overflow-x: hidden; }
-        .serif { font-family: 'Amiri', serif; }
+        :root { --main-pink: #ff4d8d; --soft-pink: #fff0f5; --gold: #d4af37; --text-dark: #2d2d2d; }
+        body { font-family: 'Cairo', sans-serif; background-color: var(--soft-pink); color: var(--text-dark); overflow-x: hidden; }
+        .font-title { font-family: 'Reem Kufi', sans-serif; }
 
-        /* ستايل المتجر الشامل */
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.05); }
-        .product-card { transition: 0.6s cubic-bezier(0.22, 1, 0.36, 1); border: 1px solid transparent; }
-        .product-card:hover { transform: translateY(-15px); border-color: var(--gold); box-shadow: 0 30px 60px rgba(0,0,0,0.8); }
+        /* تصميم الاسم 3D */
+        .logo-3d {
+            font-size: 3rem; font-weight: 900; color: var(--main-pink);
+            text-shadow: 1px 1px 0px #ffb6c1, 2px 2px 0px #ffb6c1, 3px 3px 0px #ffb6c1, 4px 4px 15px rgba(0,0,0,0.1);
+            transition: 0.5s; cursor: pointer; display: inline-block;
+        }
+        .logo-3d:hover { transform: scale(1.1) rotate(-2deg); text-shadow: 1px 1px 0px var(--gold), 5px 5px 20px rgba(255, 77, 141, 0.3); }
 
-        /* حاوية الصور بالسحب */
+        /* بطاقة المنتج الأنثوية */
+        .bag-card {
+            background: #fff; border-radius: 2.5rem; padding: 1rem;
+            box-shadow: 20px 20px 60px #d9cad0, -20px -20px 60px #ffffff;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid transparent;
+        }
+        .bag-card:hover { transform: scale(1.03); border-color: var(--main-pink); }
+
+        /* السلايدر بالسحب */
         .swipe-container {
             display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
-            scrollbar-width: none; -ms-overflow-style: none; cursor: grab;
+            scrollbar-width: none; cursor: grab; border-radius: 2rem;
         }
         .swipe-container::-webkit-scrollbar { display: none; }
-        .swipe-item { min-width: 100%; scroll-snap-align: center; position: relative; }
+        .swipe-item { min-width: 100%; scroll-snap-align: center; height: 400px; }
+        .swipe-item img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* زر الرجوع الذكي */
+        /* زر الرجوع الواضح */
         .back-btn {
-            position: fixed; top: 30px; right: 30px; z-index: 250;
-            background: var(--gold); color: #000; padding: 12px 25px;
-            border-radius: 50px; font-weight: 900; font-size: 14px;
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
-            display: flex; items-center: center; gap: 8px; transition: 0.4s;
+            position: fixed; top: 20px; right: 20px; z-index: 250;
+            background: var(--main-pink); color: white; padding: 12px 24px;
+            border-radius: 1rem; font-weight: bold; box-shadow: 0 10px 20px rgba(255, 77, 141, 0.3);
         }
-        .back-btn:hover { transform: scale(1.1); filter: brightness(1.1); }
 
-        /* النقاط التوضيحية للسلايدر */
-        .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2); transition: 0.3s; }
-        .dot.active { background: var(--gold); width: 25px; }
+        /* واجهة الدخول الواضحة */
+        .login-input {
+            width: 100%; background: #f8f8f8; border: 2px solid #eee;
+            padding: 1rem; border-radius: 1rem; margin-bottom: 1rem;
+            color: #333; outline: none; transition: 0.3s;
+        }
+        .login-input:focus { border-color: var(--main-pink); background: #fff; }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--main-pink), #ff85a1);
+            color: white; font-weight: 900; border-radius: 1.2rem;
+            transition: 0.3s; box-shadow: 0 10px 20px rgba(255, 77, 141, 0.2);
+        }
+        .btn-primary:hover { opacity: 0.9; transform: translateY(-3px); }
 
         .hidden-admin { display: none; }
     </style>
 </head>
 <body>
 
-    <nav class="fixed top-0 w-full z-[100] px-10 py-6 flex justify-between items-center glass border-b border-white/5">
-        <div class="serif text-3xl font-black text-gold">BEST BAGS</div>
-        <div class="hidden md:flex gap-10 text-[11px] font-bold uppercase tracking-widest text-gray-400">
-            <a href="#gallery" class="hover:text-gold transition">المعرض</a>
-            <a href="https://wa.me/249900623733" class="hover:text-gold transition">خدمة العملاء</a>
+    <nav class="fixed top-0 w-full z-[100] px-6 py-4 flex justify-between items-center bg-white/80 backdrop-blur-md border-b border-pink-100">
+        <div class="logo-3d font-title">Best Bags</div>
+        <div class="flex gap-4">
+            <a href="https://wa.me/249900623733" class="btn-primary px-6 py-2 text-sm">تواصلِ معنا</a>
         </div>
     </nav>
 
-    <section class="h-[75vh] flex flex-col justify-center items-center text-center px-6 pt-20">
-        <h1 class="serif text-6xl md:text-9xl mb-6 reveal">إرث <span class="text-gold italic">الجمال</span></h1>
-        <p class="text-gray-500 tracking-[0.4em] text-xs uppercase mb-10">Best Bags: ندرة الجلد.. دقة اليد</p>
-        <a href="#gallery" class="border border-gold text-gold px-12 py-4 rounded-full text-xs font-bold hover:bg-gold hover:text-black transition duration-500">استكشف المجموعة</a>
-    </section>
-
-    <section id="gallery" class="py-20 max-w-7xl mx-auto px-6">
-        <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16"></div>
-    </section>
-
-    <section id="adminZone" class="hidden-admin py-32 bg-[#050505]">
-        <div class="max-w-3xl mx-auto glass p-12 rounded-[3rem]">
-            <div class="flex justify-between items-center mb-10">
-                <h2 class="serif text-3xl text-gold">إدارة المحتوى</h2>
-                <button onclick="handleLogout()" class="text-[10px] border border-red-500/50 text-red-500 px-6 py-2 rounded-full">تسجيل خروج</button>
-            </div>
-            <div class="space-y-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <input type="text" id="pName" placeholder="اسم الحقيبة" class="bg-white/5 p-5 rounded-2xl outline-none">
-                    <input type="number" id="pPrice" placeholder="السعر" class="bg-white/5 p-5 rounded-2xl outline-none">
-                </div>
-                <textarea id="pDesc" placeholder="وصف القطعة..." class="w-full bg-white/5 p-5 rounded-2xl h-40 outline-none"></textarea>
-                <input type="file" id="pFiles" multiple class="block w-full text-xs text-gray-500">
-                <button onclick="uploadProduct()" id="uploadBtn" class="w-full py-5 bg-gold text-black rounded-2xl font-black">إضافة المنتج</button>
-            </div>
+    <section class="h-[60vh] flex flex-col justify-center items-center text-center px-6 pt-24 bg-gradient-to-b from-white to-pink-50">
+        <h1 class="font-title text-5xl md:text-7xl text-gray-800 mb-4">أناقتكِ تبدأ من <span class="text-[#ff4d8d]">حقيبتكِ</span></h1>
+        <p class="text-gray-500 text-lg max-w-xl">مجموعة مختارة من الحقائب الجلدية الفاخرة التي تليق بجمالكِ وتفردكِ.</p>
+        <div class="mt-8 flex gap-4">
+            <div class="w-12 h-1 bg-[#ff4d8d] rounded-full"></div>
+            <div class="w-4 h-1 bg-gold rounded-full"></div>
         </div>
     </section>
 
-    <footer class="py-20 text-center opacity-20 text-[10px] tracking-[1.5em] relative">
-        BEST BAGS LUXURY
-        <div onclick="showLogin()" class="absolute bottom-10 left-1/2 -translate-x-1/2 w-3 h-3 cursor-pointer"></div>
+    <section id="gallery" class="py-16 max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        </section>
+
+    <section id="adminZone" class="hidden-admin py-20 bg-white border-t-4 border-[#ff4d8d]">
+        <div class="max-w-2xl mx-auto p-8 shadow-2xl rounded-[2rem]">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="font-title text-3xl text-gray-800">إضافة تشكيلة جديدة</h2>
+                <button onclick="handleLogout()" class="text-red-500 font-bold border-b-2 border-red-200">خروج</button>
+            </div>
+            <input type="text" id="pName" placeholder="اسم الحقيبة" class="login-input">
+            <input type="number" id="pPrice" placeholder="السعر بالجنيه" class="login-input">
+            <textarea id="pDesc" placeholder="وصف الحقيبة (الخامة، الحجم...)" class="login-input h-32"></textarea>
+            <input type="file" id="pFiles" multiple class="mb-6 block w-full text-sm">
+            <button onclick="uploadProduct()" id="uploadBtn" class="btn-primary w-full py-5 text-xl">نشر المنتج الآن</button>
+        </div>
+    </section>
+
+    <footer class="py-12 text-center text-gray-400 text-sm tracking-widest relative">
+        BEST BAGS LUXURY COLLECTION © 2026
+        <div onclick="showLogin()" class="absolute bottom-5 left-1/2 -translate-x-1/2 w-4 h-4 cursor-pointer opacity-10"></div>
     </footer>
 
-    <div id="productModal" class="fixed inset-0 z-[200] hidden bg-[#050505] overflow-y-auto">
-        <button onclick="closeModal()" class="back-btn">
-            <span>الرجوع للمعرض</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-        </button>
+    <div id="productModal" class="fixed inset-0 z-[200] hidden bg-white overflow-y-auto">
+        <button onclick="closeModal()" class="back-btn">رجوع للمتجر ➔</button>
 
-        <div class="max-w-6xl mx-auto min-h-screen flex flex-col lg:flex-row items-center gap-16 p-8 pt-32 lg:pt-10">
-            <div class="w-full lg:w-3/5">
-                <div class="relative rounded-[3rem] overflow-hidden shadow-2xl bg-white/5">
-                    <div id="swipeGallery" class="swipe-container" onscroll="updateDots()">
-                        </div>
-                    <div id="dotContainer" class="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-3 z-10"></div>
-                </div>
-                <p class="text-center text-[10px] text-gray-600 mt-6 tracking-widest uppercase">اسحب الصور لليمين أو اليسار للمزيد</p>
+        <div class="max-w-6xl mx-auto min-h-screen flex flex-col lg:flex-row items-center gap-12 p-6 pt-24 lg:pt-0">
+            <div class="w-full lg:w-1/2">
+                <div class="swipe-container shadow-2xl border-4 border-white" id="swipeGallery"></div>
+                <div class="flex justify-center gap-2 mt-4" id="dotContainer"></div>
+                <p class="text-center text-pink-300 text-xs mt-4 animate-pulse">اسحبي الصورة لمشاهدة المزيد ↔</p>
             </div>
 
-            <div class="w-full lg:w-2/5 space-y-8">
-                <div class="space-y-2">
-                    <h2 id="modalTitle" class="serif text-5xl md:text-6xl text-gold leading-tight"></h2>
-                    <p id="modalPrice" class="text-3xl font-black text-gray-300"></p>
-                </div>
-                <div class="glass p-8 rounded-[2.5rem] border-white/10 leading-relaxed text-lg text-gray-400 font-light" id="modalDesc"></div>
+            <div class="w-full lg:w-1/2 space-y-6 text-right">
+                <h2 id="modalTitle" class="font-title text-5xl text-gray-800"></h2>
+                <div class="inline-block bg-pink-100 text-[#ff4d8d] px-6 py-2 rounded-full font-black text-2xl" id="modalPrice"></div>
+                <div class="h-1 w-20 bg-gold rounded-full"></div>
+                <p id="modalDesc" class="text-gray-600 text-xl leading-relaxed bg-pink-50/50 p-6 rounded-3xl"></p>
                 
-                <div class="flex flex-col gap-5">
-                    <button id="orderWA" class="w-full py-6 bg-gold text-black rounded-3xl font-black text-sm uppercase tracking-widest shadow-2xl hover:scale-[1.02] transition">اطلب الآن عبر واتساب</button>
+                <div class="grid grid-cols-1 gap-4 pt-6">
+                    <button id="orderWA" class="btn-primary py-6 text-lg shadow-pink-200">اطلبِ الآن عبر واتساب</button>
                     <div class="flex gap-4">
-                        <button id="shareBtn" class="flex-1 py-4 glass rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-white/10 transition">مشاركة</button>
-                        <button id="saveBtn" class="flex-1 py-4 glass rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-white/10 transition">حفظ الصورة</button>
+                        <button id="shareBtn" class="flex-1 py-4 border-2 border-pink-100 rounded-2xl font-bold text-gray-500 hover:bg-pink-50 transition">مشاركة</button>
+                        <button id="saveBtn" class="flex-1 py-4 border-2 border-pink-100 rounded-2xl font-bold text-gray-500 hover:bg-pink-50 transition">حفظ الصورة</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="loginModal" class="fixed inset-0 z-[300] hidden bg-black/98 flex items-center justify-center p-6">
-        <div class="w-full max-w-sm text-center">
-            <h3 class="serif text-2xl mb-10 text-gold uppercase tracking-widest">Master Key</h3>
-            <input type="email" id="admEmail" placeholder="EMAIL" class="w-full bg-white/5 p-5 rounded-2xl mb-4 text-center outline-none border border-white/5 focus:border-gold">
-            <input type="password" id="admPass" placeholder="PASSWORD" class="w-full bg-white/5 p-5 rounded-2xl mb-10 text-center outline-none border border-white/5 focus:border-gold">
-            <button onclick="handleLogin()" class="w-full py-5 bg-gold text-black rounded-full font-black">UNLOCK</button>
-            <button onclick="hideLogin()" class="mt-6 text-gray-700 text-xs uppercase">Cancel</button>
+    <div id="loginModal" class="fixed inset-0 z-[300] hidden bg-[#ff4d8d] flex items-center justify-center p-6">
+        <div class="bg-white w-full max-w-sm rounded-[2.5rem] p-10 shadow-2xl">
+            <h3 class="font-title text-3xl text-center mb-8 text-gray-800">دخول الإدارة</h3>
+            <label class="block text-xs font-bold text-gray-400 mb-2 mr-2 uppercase">البريد الإلكتروني</label>
+            <input type="email" id="admEmail" class="login-input text-right" placeholder="admin@bestbags.com">
+            <label class="block text-xs font-bold text-gray-400 mb-2 mr-2 uppercase">كلمة المرور</label>
+            <input type="password" id="admPass" class="login-input text-right" placeholder="••••••••">
+            <button onclick="handleLogin()" class="btn-primary w-full py-4 mt-4 text-lg">فتح لوحة التحكم</button>
+            <button onclick="hideLogin()" class="w-full mt-6 text-gray-400 text-sm underline">إغلاق</button>
         </div>
     </div>
 
@@ -134,15 +147,14 @@
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ4Ymdsb212dWxuemVocnV1YmRoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5Mzg5MDYsImV4cCI6MjA5MjUxNDkwNn0.rqIZHvP47QugH9vG0LW8OkkmAVYEzhOwv-VUKJuEqOY';
         const _client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        let products = [];
-        let currentImgs = [];
+        let productsStore = [];
 
         async function handleLogin() {
             const { error } = await _client.auth.signInWithPassword({
                 email: document.getElementById('admEmail').value,
                 password: document.getElementById('admPass').value
             });
-            if (error) alert("Access Denied"); else location.reload();
+            if (error) alert("بيانات الدخول خاطئة"); else location.reload();
         }
 
         async function handleLogout() { await _client.auth.signOut(); location.reload(); }
@@ -150,66 +162,28 @@
         function hideLogin() { document.getElementById('loginModal').style.display = 'none'; }
 
         function openModal(id) {
-            const p = products.find(x => x.id == id);
-            currentImgs = p.images;
-            
-            // حقن الصور في السلايدر
+            const p = productsStore.find(x => x.id == id);
             const gallery = document.getElementById('swipeGallery');
-            gallery.innerHTML = p.images.map(img => `
-                <div class="swipe-item">
-                    <img src="${img}" class="w-full h-full object-cover">
-                </div>
-            `).join('');
-
-            // حقن النقاط
-            const dotCont = document.getElementById('dotContainer');
-            dotCont.innerHTML = p.images.map((_, i) => `<div class="dot ${i==0?'active':''}"></div>`).join('');
-
+            gallery.innerHTML = p.images.map(img => `<div class="swipe-item"><img src="${img}"></div>`).join('');
+            
             document.getElementById('modalTitle').innerText = p.name;
             document.getElementById('modalPrice').innerText = `${p.price} SDG`;
-            document.getElementById('modalDesc').innerText = p.description || "قطعة يدوية حصرية من أفضل أنواع الجلود السودانية.";
+            document.getElementById('modalDesc').innerText = p.description || "قطعة فنية تضفي لمسة سحرية على إطلالتكِ.";
             
             document.getElementById('orderWA').onclick = () => {
-                const msg = encodeURIComponent(`مرحباً Best Bags، أود طلب:\n\nالمنتج: ${p.name}\nالسعر: ${p.price} SDG`);
-                window.open(`https://wa.me/249900623733?text=${msg}`);
-            };
-
-            document.getElementById('shareBtn').onclick = () => {
-                navigator.share({ title: p.name, url: window.location.href });
-            };
-
-            document.getElementById('saveBtn').onclick = async () => {
-                const scrollLeft = gallery.scrollLeft;
-                const index = Math.round(scrollLeft / gallery.clientWidth);
-                const res = await fetch(currentImgs[index]);
-                const b = await res.blob();
-                const l = document.createElement('a'); l.href = URL.createObjectURL(b); l.download = `${p.name}.jpg`; l.click();
+                window.open(`https://wa.me/249900623733?text=${encodeURIComponent('مرحباً Best Bags، أود طلب: ' + p.name)}`);
             };
 
             document.getElementById('productModal').style.display = 'block';
             document.body.style.overflow = 'hidden';
-            gallery.scrollLeft = 0;
         }
 
-        function updateDots() {
-            const gallery = document.getElementById('swipeGallery');
-            const dots = document.querySelectorAll('.dot');
-            const index = Math.round(gallery.scrollLeft / gallery.clientWidth);
-            dots.forEach((dot, i) => {
-                if(i === index) dot.classList.add('active');
-                else dot.classList.remove('active');
-            });
-        }
-
-        function closeModal() {
-            document.getElementById('productModal').style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
+        function closeModal() { document.getElementById('productModal').style.display = 'none'; document.body.style.overflow = 'auto'; }
 
         async function uploadProduct() {
             const btn = document.getElementById('uploadBtn');
             const files = document.getElementById('pFiles').files;
-            btn.innerText = "جاري الحفظ...";
+            btn.innerText = "جاري النشر...";
             try {
                 let urls = [];
                 for (let f of files) {
@@ -225,30 +199,28 @@
                     images: urls
                 }]);
                 location.reload();
-            } catch (e) { alert("Error"); }
+            } catch (e) { alert("حدث خطأ"); }
         }
 
         async function init() {
             const { data } = await _client.from('products').select('*').order('created_at', {ascending: false});
-            products = data || [];
-            const grid = document.getElementById('productsGrid');
+            productsStore = data || [];
+            const grid = document.getElementById('gallery');
             const sess = await _client.auth.getSession();
             const isAdmin = sess.data.session;
 
-            grid.innerHTML = products.map(p => `
-                <div class="product-card rounded-[3.5rem] p-5 bg-[#0e0e0e] relative group">
-                    <div class="aspect-[4/5] rounded-[3rem] overflow-hidden cursor-pointer relative shadow-2xl" onclick="openModal('${p.id}')">
-                        <img src="${p.images[0]}" class="w-full h-full object-cover transition duration-1000 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center backdrop-blur-sm">
-                            <span class="text-[9px] uppercase tracking-[0.4em] border-2 border-gold/50 text-gold px-8 py-3 rounded-full font-black">اكتشف القطعة</span>
+            grid.innerHTML = productsStore.map(p => `
+                <div class="bag-card group cursor-pointer" onclick="openModal('${p.id}')">
+                    <div class="relative h-80 overflow-hidden rounded-[2rem] mb-6">
+                        <img src="${p.images[0]}" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                        <div class="absolute bottom-4 left-4 bg-white/90 px-4 py-2 rounded-full font-bold text-[#ff4d8d] shadow-lg">
+                            ${p.price} SDG
                         </div>
                     </div>
-                    <div class="pt-8 px-4 flex justify-between items-start">
-                        <div>
-                            <h3 class="serif text-2xl mb-1">${p.name}</h3>
-                            <p class="text-gold font-bold text-sm tracking-widest">${p.price} SDG</p>
-                        </div>
-                        ${isAdmin ? `<button onclick="deleteP('${p.id}')" class="text-red-900 text-[10px] underline">حذف</button>` : ''}
+                    <div class="px-2">
+                        <h3 class="font-title text-2xl text-gray-800 mb-2">${p.name}</h3>
+                        <p class="text-gray-400 text-sm line-clamp-2">${p.description || ''}</p>
+                        ${isAdmin ? `<button onclick="event.stopPropagation(); deleteP('${p.id}')" class="mt-4 text-red-400 text-xs underline">حذف المنتج</button>` : ''}
                     </div>
                 </div>
             `).join('');
