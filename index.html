@@ -20,7 +20,7 @@
         }
         .logo-3d:hover { transform: scale(1.1) rotate(-2deg); text-shadow: 1px 1px 0px var(--gold), 5px 5px 20px rgba(255, 77, 141, 0.3); }
 
-        /* بطاقة المنتج الأنثوية */
+        /* بطاقة المنتج */
         .bag-card {
             background: #fff; border-radius: 2.5rem; padding: 1rem;
             box-shadow: 20px 20px 60px #d9cad0, -20px -20px 60px #ffffff;
@@ -38,14 +38,14 @@
         .swipe-item { min-width: 100%; scroll-snap-align: center; height: 400px; }
         .swipe-item img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* زر الرجوع الواضح */
+        /* زر الرجوع */
         .back-btn {
             position: fixed; top: 20px; right: 20px; z-index: 250;
             background: var(--main-pink); color: white; padding: 12px 24px;
             border-radius: 1rem; font-weight: bold; box-shadow: 0 10px 20px rgba(255, 77, 141, 0.3);
         }
 
-        /* واجهة الدخول الواضحة */
+        /* واجهة الدخول */
         .login-input {
             width: 100%; background: #f8f8f8; border: 2px solid #eee;
             padding: 1rem; border-radius: 1rem; margin-bottom: 1rem;
@@ -67,22 +67,15 @@
 
     <nav class="fixed top-0 w-full z-[100] px-6 py-4 flex justify-between items-center bg-white/80 backdrop-blur-md border-b border-pink-100">
         <div class="logo-3d font-title">Best Bags</div>
-        <div class="flex gap-4">
-            <a href="https://wa.me/249900623733" class="btn-primary px-6 py-2 text-sm">تواصلِ معنا</a>
-        </div>
+        <a href="https://wa.me/249900623733" class="btn-primary px-6 py-2 text-sm">تواصلِ معنا</a>
     </nav>
 
     <section class="h-[60vh] flex flex-col justify-center items-center text-center px-6 pt-24 bg-gradient-to-b from-white to-pink-50">
         <h1 class="font-title text-5xl md:text-7xl text-gray-800 mb-4">أناقتكِ تبدأ من <span class="text-[#ff4d8d]">حقيبتكِ</span></h1>
         <p class="text-gray-500 text-lg max-w-xl">مجموعة مختارة من الحقائب الجلدية الفاخرة التي تليق بجمالكِ وتفردكِ.</p>
-        <div class="mt-8 flex gap-4">
-            <div class="w-12 h-1 bg-[#ff4d8d] rounded-full"></div>
-            <div class="w-4 h-1 bg-gold rounded-full"></div>
-        </div>
     </section>
 
-    <section id="gallery" class="py-16 max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-        </section>
+    <section id="gallery" class="py-16 max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"></section>
 
     <section id="adminZone" class="hidden-admin py-20 bg-white border-t-4 border-[#ff4d8d]">
         <div class="max-w-2xl mx-auto p-8 shadow-2xl rounded-[2rem]">
@@ -92,7 +85,7 @@
             </div>
             <input type="text" id="pName" placeholder="اسم الحقيبة" class="login-input">
             <input type="number" id="pPrice" placeholder="السعر بالجنيه" class="login-input">
-            <textarea id="pDesc" placeholder="وصف الحقيبة (الخامة، الحجم...)" class="login-input h-32"></textarea>
+            <textarea id="pDesc" placeholder="وصف الحقيبة..." class="login-input h-32"></textarea>
             <input type="file" id="pFiles" multiple class="mb-6 block w-full text-sm">
             <button onclick="uploadProduct()" id="uploadBtn" class="btn-primary w-full py-5 text-xl">نشر المنتج الآن</button>
         </div>
@@ -105,39 +98,30 @@
 
     <div id="productModal" class="fixed inset-0 z-[200] hidden bg-white overflow-y-auto">
         <button onclick="closeModal()" class="back-btn">رجوع للمتجر ➔</button>
-
         <div class="max-w-6xl mx-auto min-h-screen flex flex-col lg:flex-row items-center gap-12 p-6 pt-24 lg:pt-0">
             <div class="w-full lg:w-1/2">
                 <div class="swipe-container shadow-2xl border-4 border-white" id="swipeGallery"></div>
                 <div class="flex justify-center gap-2 mt-4" id="dotContainer"></div>
                 <p class="text-center text-pink-300 text-xs mt-4 animate-pulse">اسحبي الصورة لمشاهدة المزيد ↔</p>
             </div>
-
             <div class="w-full lg:w-1/2 space-y-6 text-right">
                 <h2 id="modalTitle" class="font-title text-5xl text-gray-800"></h2>
                 <div class="inline-block bg-pink-100 text-[#ff4d8d] px-6 py-2 rounded-full font-black text-2xl" id="modalPrice"></div>
                 <div class="h-1 w-20 bg-gold rounded-full"></div>
                 <p id="modalDesc" class="text-gray-600 text-xl leading-relaxed bg-pink-50/50 p-6 rounded-3xl"></p>
-                
                 <div class="grid grid-cols-1 gap-4 pt-6">
                     <button id="orderWA" class="btn-primary py-6 text-lg shadow-pink-200">اطلبِ الآن عبر واتساب</button>
-                    <div class="flex gap-4">
-                        <button id="shareBtn" class="flex-1 py-4 border-2 border-pink-100 rounded-2xl font-bold text-gray-500 hover:bg-pink-50 transition">مشاركة</button>
-                        <button id="saveBtn" class="flex-1 py-4 border-2 border-pink-100 rounded-2xl font-bold text-gray-500 hover:bg-pink-50 transition">حفظ الصورة</button>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <div id="loginModal" class="fixed inset-0 z-[300] hidden bg-[#ff4d8d] flex items-center justify-center p-6">
-        <div class="bg-white w-full max-w-sm rounded-[2.5rem] p-10 shadow-2xl">
-            <h3 class="font-title text-3xl text-center mb-8 text-gray-800">دخول الإدارة</h3>
-            <label class="block text-xs font-bold text-gray-400 mb-2 mr-2 uppercase">البريد الإلكتروني</label>
-            <input type="email" id="admEmail" class="login-input text-right" placeholder="admin@bestbags.com">
-            <label class="block text-xs font-bold text-gray-400 mb-2 mr-2 uppercase">كلمة المرور</label>
-            <input type="password" id="admPass" class="login-input text-right" placeholder="••••••••">
-            <button onclick="handleLogin()" class="btn-primary w-full py-4 mt-4 text-lg">فتح لوحة التحكم</button>
+        <div class="bg-white w-full max-w-sm rounded-[2.5rem] p-10 shadow-2xl text-center">
+            <h3 class="font-title text-3xl mb-8">دخول الإدارة</h3>
+            <input type="email" id="admEmail" class="login-input text-center" placeholder="البريد">
+            <input type="password" id="admPass" class="login-input text-center" placeholder="كلمة المرور">
+            <button onclick="handleLogin()" class="btn-primary w-full py-4 mt-4">دخول</button>
             <button onclick="hideLogin()" class="w-full mt-6 text-gray-400 text-sm underline">إغلاق</button>
         </div>
     </div>
@@ -154,7 +138,7 @@
                 email: document.getElementById('admEmail').value,
                 password: document.getElementById('admPass').value
             });
-            if (error) alert("بيانات الدخول خاطئة"); else location.reload();
+            if (error) alert("خطأ في البيانات"); else location.reload();
         }
 
         async function handleLogout() { await _client.auth.signOut(); location.reload(); }
@@ -170,8 +154,11 @@
             document.getElementById('modalPrice').innerText = `${p.price} SDG`;
             document.getElementById('modalDesc').innerText = p.description || "قطعة فنية تضفي لمسة سحرية على إطلالتكِ.";
             
+            // --- تعديل رسالة الواتساب لتشمل كامل المواصفات ---
             document.getElementById('orderWA').onclick = () => {
-                window.open(`https://wa.me/249900623733?text=${encodeURIComponent('مرحباً Best Bags، أود طلب: ' + p.name)}`);
+                const phoneNumber = "249900623733";
+                const message = `مرحباً Best Bags ✨\n\nأود طلب المنتج التالي:\n👜 الاسم: ${p.name}\n💰 السعر: ${p.price} SDG\n📝 الوصف: ${p.description || 'لا يوجد وصف متاح'}\n\nالرجاء تأكيد التوفر والطلب.`;
+                window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`);
             };
 
             document.getElementById('productModal').style.display = 'block';
@@ -182,8 +169,8 @@
 
         async function uploadProduct() {
             const btn = document.getElementById('uploadBtn');
-            const files = document.getElementById('pFiles').files;
             btn.innerText = "جاري النشر...";
+            const files = document.getElementById('pFiles').files;
             try {
                 let urls = [];
                 for (let f of files) {
@@ -213,14 +200,12 @@
                 <div class="bag-card group cursor-pointer" onclick="openModal('${p.id}')">
                     <div class="relative h-80 overflow-hidden rounded-[2rem] mb-6">
                         <img src="${p.images[0]}" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
-                        <div class="absolute bottom-4 left-4 bg-white/90 px-4 py-2 rounded-full font-bold text-[#ff4d8d] shadow-lg">
-                            ${p.price} SDG
-                        </div>
+                        <div class="absolute bottom-4 left-4 bg-white/90 px-4 py-2 rounded-full font-bold text-[#ff4d8d] shadow-lg">${p.price} SDG</div>
                     </div>
                     <div class="px-2">
                         <h3 class="font-title text-2xl text-gray-800 mb-2">${p.name}</h3>
                         <p class="text-gray-400 text-sm line-clamp-2">${p.description || ''}</p>
-                        ${isAdmin ? `<button onclick="event.stopPropagation(); deleteP('${p.id}')" class="mt-4 text-red-400 text-xs underline">حذف المنتج</button>` : ''}
+                        ${isAdmin ? `<button onclick="event.stopPropagation(); deleteP('${p.id}')" class="mt-4 text-red-400 text-xs">حذف</button>` : ''}
                     </div>
                 </div>
             `).join('');
@@ -229,7 +214,6 @@
         }
 
         async function deleteP(id) { if(confirm("حذف؟")) { await _client.from('products').delete().eq('id', id); location.reload(); } }
-
         init();
     </script>
 </body>
