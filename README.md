@@ -1,62 +1,56 @@
-# 👜 Best Bags | Premium E-Commerce Showcase
+# 👜 Best Bags | عالم الأناقة النسائية
 
-![Version](https://img.shields.io/badge/Version-2.5-ff4d8d)
-![Tech](https://img.shields.io/badge/Tech-Tailwind_CSS-38bdf8)
-![Database](https://img.shields.io/badge/Database-Supabase-3ecf8e)
-![Platform](https://img.shields.io/badge/Platform-GitHub_Pages-black)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 
-**Best Bags** هو منصة تجارة إلكترونية فاخرة متخصصة في عرض وبيع الحقائب الجلدية اليدوية. تم تصميم الموقع بتركيز عالٍ على تجربة المستخدم (UX) وجماليات التصميم (UI) لجذب الفئات المهتمة بالموضة والأناقة، مع لوحة تحكم متكاملة لإدارة المنتجات.
-
----
-
-## ✨ المميزات الرئيسية (Features)
-
-* **تجربة تسوق أنثوية فاخرة:** واجهة مستخدم عصرية تعتمد على الـ 3D Effects والـ Glassmorphism.
-* **لوحة تحكم كاملة (Admin Dashboard):** إمكانية إضافة، تعديل، وحذف المنتجات مباشرة مع رفع الصور إلى Cloud Storage.
-* **نظام عرض تفاعلي:** سلايدر صور يدعم إيماءات اللمس (Swipe) لتصفح سلس على الهواتف.
-* **تكامل مع WhatsApp:** نظام طلب ذكي يرسل تفاصيل المنتج (الاسم، السعر، الوصف) تلقائياً للبائع.
-* **إدارة البيانات:** ربط كامل مع قاعدة بيانات **Supabase** ونظام المصادقة (Auth).
-* **التجاوب (Responsive Design):** متوافق تماماً مع جميع أحجام الشاشات (Mobile, Tablet, Desktop).
-
-## 🛠 التكنولوجيا المستخدمة (Tech Stack)
-
-* **Frontend:** HTML5, Tailwind CSS, JavaScript (ES6+).
-* **Backend as a Service (BaaS):** [Supabase](https://supabase.com/) (Database & Storage).
-* **Animations:** CSS3 Keyframes لإنشاء تأثيرات الـ 3D والظهور السينمائي.
+**Best Bags** هو متجر إلكتروني عصري متكامل مخصص لعرض وبيع الحقائب النسائية الفاخرة. يجمع المشروع بين التصميم البصري المتناغم (UI) وتجربة المستخدم السلسة (UX) مع لوحة تحكم ذكية للإدارة.
 
 ---
 
-## 🚀 كيفية التشغيل (Setup & Deployment)
+## ✨ المميزات الرئيسية
 
-بما أن المشروع يعتمد على **Client-side Architecture**، يمكنك تشغيله بسهولة كالتالي:
-
-1. **التشغيل المحلي (Local Run):**
-   * قم بتحميل ملفات المشروع.
-   * افتح ملف `index.html` مباشرة في أي متصفح ويب.
-   
-2. **إدارة المنتجات (Admin Access):**
-   * للوصول للوحة التحكم، قم بالنقر على الزر السري المخفي في أسفل الموقع (Footer).
-   * أدخل بيانات الإدارة المبرمجة مسبقاً في نظام Supabase Auth.
-
-3. **النشر (Deployment):**
-   * المشروع جاهز للنشر الفوري عبر **GitHub Pages** أو **Vercel** بمجرد رفع الكود للمستودع (Repository).
+* **🎨 هوية بصرية متسقة:** تصميم أنيق يعتمد على درجات الوردي والذهبي لضمان تجربة تسوق راقية.
+* **📱 استجابة كاملة (Responsive):** تصميم "Mobile-First" يعرض المنتجات بشكل جذاب على الهواتف والأجهزة اللوحية.
+* **🖼️ تجربة عرض تفاعلية:** معرض صور يدعم السحب (Swipe) لعرض تفاصيل الحقيبة من كافة الزوايا.
+* **🔐 نظام إدارة متطور (Admin Dashboard):**
+    * إضافة منتجات جديدة مع رفع الصور سحابياً.
+    * تعديل الأسعار والمواصفات بشكل فوري.
+    * حذف المنتجات من المتجر بضغطة زر.
+* **💬 طلب سريع:** زر تواصل مباشر عبر واتساب يقوم بإنشاء طلب مفصل يحتوي على اسم المنتج وسعره تلقائياً.
+* **🚀 أداء فائق:** استخدام **Supabase** كقاعدة بيانات خلفية لضمان سرعة استجابة البيانات وتخزين الصور.
 
 ---
 
-## 📸 نظرة على التصميم (Preview)
+## 🛠️ التقنيات المستخدمة
 
-* **الهوية البصرية:** تعتمد على الوردي المخملي والذهبي الملكي لتعزيز مفهوم الفخامة.
-* **العنوان:** يتميز بتأثير **3D Logo** تفاعلي يتفاعل مع حركة الماوس.
+* **Frontend:** HTML5, CSS3, JavaScript (ES6+).
+* **Styling:** [Tailwind CSS](https://tailwindcss.com/) للتنسيق السريع والمرن.
+* **Database & Auth:** [Supabase](https://supabase.com/) لإدارة البيانات والمصادقة.
+* **Animations:** [AOS.js](https://michalsnik.github.io/aos/) لإضافة حركات انسيابية عند التمرير.
+* **Typography:** خطوط **Cairo** و **Reem Kufi** من Google Fonts لضمان وضوح النص وجمالية الخط العربي.
+
+---
+
+## ⚙️ إعداد المشروع
+
+لتشغيل هذا المتجر على جهازك أو استضافته:
+
+1.  **إعداد قاعدة البيانات:**
+    * أنشئ مشروعاً جديداً على [Supabase](https://supabase.com/).
+    * أنشئ جدولاً باسم `products` يحتوي على الأعمدة: `id, name, price, description, images (text array)`.
+    * قم بتفعيل الـ `Storage` وأنشئ Bucket باسم `product-images` واجعله `Public`.
+
+2.  **ربط الكود:**
+    * قم بتعديل قيم `SUPABASE_URL` و `SUPABASE_KEY` داخل ملف الـ HTML ببيانات مشروعك الخاصة.
+
+3.  **التشغيل:**
+    * ببساطة افتح ملف `index.html` في أي متصفح حديث.
 
 ---
 
-## 👨‍💻 المساهمة والتواصل
+## 📂 هيكل الملفات
 
-هذا المشروع متاح كجزء من معرض أعمالي لتوضيح مهاراتي في بناء واجهات المستخدم المتقدمة وربطها بأنظمة الـ Cloud.
-
-**للتواصل والاستفسار:**
-* **WhatsApp:** [اضغط هنا للتواصل مباشرة](https://wa.me/249900623733)
-* **رقم الهاتف:** `+249900623733`
-
----
-**Best Bags Luxury Collection © 2026**
+```text
+├── index.html          # كود الواجهة الأمامية والمنطق البرمجي
+└── README.md           # توثيق المشروع (هذا الملف)
